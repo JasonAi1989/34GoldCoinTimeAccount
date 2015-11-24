@@ -26,6 +26,9 @@
     UILabel *_typeLabel;
     UIButton *_todoBtn;
 }
+
+@property (assign, nonatomic) BOOL isUsed;
+
 @end
 
 @implementation TodayTableViewCell
@@ -60,6 +63,8 @@
     
     CGRect todoBtnRect = CGRectMake(CGRectGetMaxX(_timeLabel.frame)+1, 0, TodoBtnWidth, Hight);
     _todoBtn = [[UIButton alloc]initWithFrame:todoBtnRect];
+    [_todoBtn setTitle:@"+" forState:UIControlStateNormal];
+    [_todoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
     CGRect spaceLabel2Rect = CGRectMake(CGRectGetMaxX(_todoBtn.frame), 0, 1, Hight);
     UILabel *spaceLabel2 = [[UILabel alloc]initWithFrame:spaceLabel2Rect];
@@ -73,13 +78,14 @@
     CGRect spaceLabel3Rect = CGRectMake(0, Hight, [UIScreen mainScreen].bounds.size.width, 1);
     UILabel *spaceLabel3 = [[UILabel alloc]initWithFrame:spaceLabel3Rect];
     spaceLabel3.backgroundColor = [UIColor grayColor];
+
     
-    [self addSubview:_timeLabel];
-    [self addSubview:spaceLabel1];
-    [self addSubview:_todoBtn];
-    [self addSubview:spaceLabel2];
-    [self addSubview:_typeLabel];
-    [self addSubview:spaceLabel3];
+    [self.contentView addSubview:_timeLabel];
+    [self.contentView addSubview:spaceLabel1];
+    [self.contentView addSubview:_todoBtn];
+    [self.contentView addSubview:spaceLabel2];
+    [self.contentView addSubview:_typeLabel];
+    [self.contentView addSubview:spaceLabel3];
 }
 
 -(void) setTime:(NSString*)time{
@@ -89,7 +95,11 @@
     _typeLabel.backgroundColor = [type objectAtIndex:0];
     _typeLabel.text = [type objectAtIndex:1];
 }
--(void) SetDetail:(NSString*)detail{
-    [_todoBtn.titleLabel setText:detail];
+-(void) setDetail:(NSString*)detail{
+   
+}
+
+-(UIButton*) getTodoBtn{
+    return _todoBtn;
 }
 @end

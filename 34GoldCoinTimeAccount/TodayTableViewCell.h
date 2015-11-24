@@ -12,6 +12,6 @@
 
 -(void) setTime:(NSString*)time;
 -(void) setType:(NSString*)type;
--(void) SetDetail:(NSString*)detail;
-
+-(void) setDetail:(NSString*)detail;
+-(UIButton*) getTodoBtn;
 @end

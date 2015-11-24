@@ -15,7 +15,6 @@
 @interface TodayTableViewController () <UITableViewDataSource, UITableViewDelegate>
 {
     NSArray *_weekCn;
-    UITableView *_table;
     NSArray *_timeBox;
     NSInteger _minTime;
     NSInteger _maxTime;
@@ -57,9 +56,8 @@
     self.navigationItem.rightBarButtonItem = rightBtn;
     
     //table
-    _table = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
-    _table.dataSource = self;
-    _table.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     
 }
 
@@ -107,6 +105,15 @@
 
 }
 
+-(void)insertContent:(id)sender{
+    
+    //    if (self.isUsed) {
+    //        <#statements#>
+    //    }
+    
+    [self performSegueWithIdentifier:@"useCoin" sender:self];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -120,7 +127,7 @@
     static NSString *identify = @"goldCoin";
     
     TodayTableViewCell *cell=nil;
-    cell = [_table dequeueReusableCellWithIdentifier:identify];
+    cell = [self.tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[TodayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
@@ -129,6 +136,10 @@
     
     [cell setTime:[_timeBox objectAtIndex:index]];
     [cell setType:[_typeBox objectAtIndex:1]];
+    UIButton *btn = [cell getTodoBtn];
+    if (btn) {
+        [btn addTarget:self action:@selector(insertContent:) forControlEvents:UIControlEventTouchDown];
+    }
 
     return cell;
 }
@@ -137,4 +148,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 40;
 }
+
+#pragma mrak 重写方法
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"useCoin"]) {
+        NSLog(@"here1");
+    }
+}
+
 @end

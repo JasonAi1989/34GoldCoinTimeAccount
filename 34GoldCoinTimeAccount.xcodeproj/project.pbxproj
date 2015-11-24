@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4221C0402E70031BFB4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4211C0402E70031BFB4 /* main.m */; };
 		9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4241C0402E70031BFB4 /* AppDelegate.m */; };
 		9699F42B1C0402E70031BFB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4291C0402E70031BFB4 /* Main.storyboard */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseCoinTableViewController.h; sourceTree = "<group>"; };
+		96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseCoinTableViewController.m; sourceTree = "<group>"; };
 		9699F41D1C0402E70031BFB4 /* 34GoldCoinTimeAccount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 34GoldCoinTimeAccount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9699F4211C0402E70031BFB4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9699F4231C0402E70031BFB4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
 				9699F44A1C0430450031BFB4 /* common.h */,
+				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
+				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
 				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
 				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
 				9699F43D1C040B690031BFB4 /* LineTableViewController.h */,
@@ -188,6 +193,7 @@
 				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
 				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
+				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
 				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
 			);
@@ -336,6 +342,7 @@
 				9699F4391C0402E70031BFB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
