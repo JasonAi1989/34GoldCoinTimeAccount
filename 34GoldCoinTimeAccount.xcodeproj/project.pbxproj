@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		9699F4221C0402E70031BFB4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4211C0402E70031BFB4 /* main.m */; };
 		9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4241C0402E70031BFB4 /* AppDelegate.m */; };
-		9699F4281C0402E70031BFB4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4271C0402E70031BFB4 /* ViewController.m */; };
 		9699F42B1C0402E70031BFB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4291C0402E70031BFB4 /* Main.storyboard */; };
 		9699F42E1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9699F42C1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodeld */; };
 		9699F4301C0402E70031BFB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9699F42F1C0402E70031BFB4 /* Assets.xcassets */; };
 		9699F4331C0402E70031BFB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4311C0402E70031BFB4 /* LaunchScreen.storyboard */; };
+		9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9699F43F1C040B690031BFB4 /* LineTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F43E1C040B690031BFB4 /* LineTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4411C040BBE0031BFB4 /* SetTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4441C040BED0031BFB4 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4481C040E910031BFB4 /* TodayTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,13 +25,22 @@
 		9699F4211C0402E70031BFB4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9699F4231C0402E70031BFB4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9699F4241C0402E70031BFB4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9699F4261C0402E70031BFB4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9699F4271C0402E70031BFB4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9699F42A1C0402E70031BFB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9699F42D1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = _4GoldCoinTimeAccount.xcdatamodel; sourceTree = "<group>"; };
 		9699F42F1C0402E70031BFB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9699F4321C0402E70031BFB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9699F4341C0402E70031BFB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewController.h; sourceTree = "<group>"; };
+		9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewController.m; sourceTree = "<group>"; };
+		9699F43D1C040B690031BFB4 /* LineTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineTableViewController.h; sourceTree = "<group>"; };
+		9699F43E1C040B690031BFB4 /* LineTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineTableViewController.m; sourceTree = "<group>"; };
+		9699F4401C040BBE0031BFB4 /* SetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetTableViewController.h; sourceTree = "<group>"; };
+		9699F4411C040BBE0031BFB4 /* SetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTableViewController.m; sourceTree = "<group>"; };
+		9699F4431C040BED0031BFB4 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
+		9699F4441C040BED0031BFB4 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
+		9699F4471C040E910031BFB4 /* TodayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewCell.h; sourceTree = "<group>"; };
+		9699F4481C040E910031BFB4 /* TodayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewCell.m; sourceTree = "<group>"; };
+		9699F44A1C0430450031BFB4 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +73,18 @@
 		9699F41F1C0402E70031BFB4 /* 34GoldCoinTimeAccount */ = {
 			isa = PBXGroup;
 			children = (
+				9699F4461C040E730031BFB4 /* TableCells */,
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
-				9699F4261C0402E70031BFB4 /* ViewController.h */,
-				9699F4271C0402E70031BFB4 /* ViewController.m */,
+				9699F44A1C0430450031BFB4 /* common.h */,
+				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
+				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
+				9699F43D1C040B690031BFB4 /* LineTableViewController.h */,
+				9699F43E1C040B690031BFB4 /* LineTableViewController.m */,
+				9699F4401C040BBE0031BFB4 /* SetTableViewController.h */,
+				9699F4411C040BBE0031BFB4 /* SetTableViewController.m */,
+				9699F4431C040BED0031BFB4 /* ChartViewController.h */,
+				9699F4441C040BED0031BFB4 /* ChartViewController.m */,
 				9699F4291C0402E70031BFB4 /* Main.storyboard */,
 				9699F42F1C0402E70031BFB4 /* Assets.xcassets */,
 				9699F4311C0402E70031BFB4 /* LaunchScreen.storyboard */,
@@ -80,6 +101,15 @@
 				9699F4211C0402E70031BFB4 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9699F4461C040E730031BFB4 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				9699F4471C040E910031BFB4 /* TodayTableViewCell.h */,
+				9699F4481C040E910031BFB4 /* TodayTableViewCell.m */,
+			);
+			name = TableCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,8 +183,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9699F42E1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodeld in Sources */,
-				9699F4281C0402E70031BFB4 /* ViewController.m in Sources */,
+				9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */,
+				9699F43F1C040B690031BFB4 /* LineTableViewController.m in Sources */,
+				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
+				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
+				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

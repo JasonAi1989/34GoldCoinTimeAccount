@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ChartViewController.h
 //  34GoldCoinTimeAccount
 //
 //  Created by jason on 15/11/24.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ChartViewController : UIViewController
 
 @end
-
