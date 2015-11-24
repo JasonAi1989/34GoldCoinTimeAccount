@@ -62,12 +62,8 @@
     self.navigationItem.leftBarButtonItem = leftBtn;
     
     //table
-    CGRect tableRect = self.tableView.frame;
-    tableRect.size.height = 100;
-    self.tableView.frame = tableRect;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    NSLog(@"%@", self.tableView);
     
     [self initArray];
     
@@ -118,24 +114,48 @@
     //form date view
     _fromDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, UseCoinCellHight, ViewWidth, ViewHight)];
     _fromDateView.backgroundColor = [UIColor lightGrayColor];
-    [self.tableView addSubview:_fromDateView];
-    
-    _toDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 2*UseCoinCellHight, ViewWidth, ViewHight)];
-    _toDateView.backgroundColor = [UIColor lightGrayColor];
-    [self.tableView addSubview:_toDateView];
-    
+ 
     _fromDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
     _fromDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
     [_fromDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
     [_fromDateViewCancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
- 
+    _fromDateViewCancelBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    
     _fromDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, ViewHight-30, 50, 20)];
     _fromDateViewOKBtn.backgroundColor = [UIColor darkGrayColor];
     [_fromDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
     [_fromDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    _fromDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+ 
+    [_fromDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
+    [_fromDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
     
     [_fromDateView addSubview:_fromDateViewOKBtn];
     [_fromDateView addSubview:_fromDateViewCancelBtn];
+    [self.view addSubview:_fromDateView];
+    
+    //to date view
+    _toDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 2*UseCoinCellHight, ViewWidth, ViewHight)];
+    _toDateView.backgroundColor = [UIColor lightGrayColor];
+    
+    _toDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
+    _toDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
+    [_toDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+    [_toDateViewCancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    _toDateViewCancelBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    
+    _toDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, ViewHight-30, 50, 20)];
+    _toDateViewOKBtn.backgroundColor = [UIColor darkGrayColor];
+    [_toDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
+    [_toDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    _toDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+  
+    [_toDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
+    [_toDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
+    
+    [_toDateView addSubview:_toDateViewOKBtn];
+    [_toDateView addSubview:_toDateViewCancelBtn];
+    [self.view addSubview:_toDateView];
 }
 
 -(void)initArray{
@@ -154,7 +174,9 @@
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-            [self.tableView setUserInteractionEnabled:NO];
+//            [self.tableView setUserInteractionEnabled:NO];
+//            [_fromDateView setUserInteractionEnabled:YES];
+//            [_fromDateViewCancelBtn setUserInteractionEnabled:YES];
         }];
     }
     else if (sender == _toBtn)
@@ -162,20 +184,26 @@
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-            [self.tableView setUserInteractionEnabled:NO];
+//            [self.tableView setUserInteractionEnabled:NO];
         }];
     }
 }
 
--(void)recoverDateView:(UIButton*)sender{
-    if (sender == _fromBtn) {
+-(void)selectDateDone:(id)sender{
+    NSLog(@"selectDateDone");
+}
+
+-(void)selectDateCancel:(id)sender{
+    NSLog(@"selectDateCancel");
+    if (sender == _fromDateViewCancelBtn) {
+        
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
         } completion:^(BOOL finished) {
             [self.tableView setUserInteractionEnabled:YES];
         }];
     }
-    else if (sender == _toBtn)
+    else if (sender == _toDateViewCancelBtn)
     {
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
@@ -247,5 +275,17 @@
         return UseCoinCellHight;
 }
 
+#pragma mark - 视图控制器的触摸事件
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController start touch...");
+}
 
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController moving...");
+    
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController touch end.");
+}
 @end

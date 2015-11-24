@@ -34,4 +34,17 @@
 }
 */
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController start touch...");
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController moving...");
+    
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"UIViewController touch end.");
+}
+
 @end

@@ -147,16 +147,18 @@
         <!--Use Coin Table View Controller-->
         <scene sceneID="9TP-z0-fxW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aZD-IF-ZrM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="ug3-Fd-X8P" customClass="UseCoinTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xP4-D3-KLf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="flc-I7-351">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="flc-I7-351" id="omS-eh-deg">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </tableViewCellContentView>
@@ -170,6 +172,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="Y3K-7s-OHS"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aZD-IF-ZrM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2019" y="25"/>
         </scene>
