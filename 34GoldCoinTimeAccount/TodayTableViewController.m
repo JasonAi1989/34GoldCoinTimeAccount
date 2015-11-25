@@ -12,15 +12,13 @@
 #import "OneDayCoins.h"
 
 #define DEFAULT_ITEMS      34
-NSArray *globalWeekCn;
-NSArray *globalTimeBox;
-NSArray *globalTypeBox;
-NSMutableArray *globalUsedCoinArray;
-
 
 @interface TodayTableViewController () <UITableViewDataSource, UITableViewDelegate>
 {
     NSInteger _usedCoinNumber;
+    OneDayCoins *_todayCoins;
+    BOOL _newCoins;
+    int _tableBtnQueueIndex;
 }
 @end
 
@@ -29,8 +27,8 @@ NSMutableArray *globalUsedCoinArray;
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    if (_usedCoinNumber != globalUsedCoinArray.count) {
-        _usedCoinNumber = globalUsedCoinArray.count;
+    if (_usedCoinNumber != _todayCoins.usedCoinQueue.count) {
+        _usedCoinNumber = _todayCoins.usedCoinQueue.count;
         
         [self.tableView reloadData];
     }
@@ -49,20 +47,11 @@ NSMutableArray *globalUsedCoinArray;
 
 #pragma mark 自定义方法
 -(void)UILayout{
-    [self initArray];
+    _todayCoins = [OneDayCoins sharedOneDayCoins];
+    _usedCoinNumber = _todayCoins.usedCoinQueue.count;
     
     //navigation
-    NSDate *today = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *comps =[calendar components:(NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday |NSCalendarUnitWeekdayOrdinal) fromDate:today];
-    
-    NSString *todayWeek = [globalWeekCn objectAtIndex:[comps weekday]];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    NSString *todayYear = [dateFormatter stringFromDate:today];
-
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", todayYear, todayWeek];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", _todayCoins.dateYear, _todayCoins.dateWeek];
     
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addItem:)];
     self.navigationItem.rightBarButtonItem = rightBtn;
@@ -70,64 +59,26 @@ NSMutableArray *globalUsedCoinArray;
     //table
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-}
-
--(void)initArray{
-    globalWeekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
-    
-    globalTimeBox = @[@"00:00-00:30",@"00:30-01:00",\
-                 @"01:00-01:30",@"01:30-02:00",\
-                 @"02:00-02:30",@"02:30-03:00",\
-                 @"03:00-03:30",@"03:30-04:00",\
-                 @"04:00-04:30",@"04:30-05:00",\
-                 @"05:00-05:30",@"05:30-06:00",\
-                 @"06:00-06:30",@"06:30-07:00",\
-                 @"07:00-07:30",@"07:30-08:00",\
-                 @"08:00-08:30",@"08:30-09:00",\
-                 @"09:00-09:30",@"09:30-10:00",\
-                 @"10:00-10:30",@"10:30-11:00",\
-                 @"11:00-11:30",@"11:30-12:00",\
-                 @"12:00-12:30",@"12:30-13:00",\
-                 @"13:00-13:30",@"13:30-14:00",\
-                 @"14:00-14:30",@"14:30-15:00",\
-                 @"15:00-15:30",@"15:30-16:00",\
-                 @"16:00-16:30",@"16:30-17:00",\
-                 @"17:00-17:30",@"17:30-18:00",\
-                 @"18:00-18:30",@"18:30-19:00",\
-                 @"19:00-19:30",@"19:30-20:00",\
-                 @"20:00-20:30",@"20:30-21:00",\
-                 @"21:00-21:30",@"21:30-22:00",\
-                 @"22:00-22:30",@"22:30-23:00",\
-                 @"23:00-23:30",@"23:30-24:00"];
-    
-    globalUsedCoinArray = [[NSMutableArray alloc]initWithCapacity:48];
-
-    for (int i=14; i<48; i++) {
-        [globalUsedCoinArray addObject:[NSNumber numberWithInt:i]];
-    }
-    _usedCoinNumber = globalUsedCoinArray.count;
-//    NSLog(@"number: %ld", _usedCoinNumber);
-
-    globalTypeBox = @[@[[UIColor grayColor], @"暂无状态"],\
-                 @[[UIColor yellowColor], @"高效工作"],\
-                 @[[UIColor blueColor], @"尽兴娱乐"],\
-                 @[[UIColor greenColor], @"休息放松"],\
-                 @[[UIColor orangeColor], @"强迫工作"],\
-                 @[[UIColor redColor], @"无效拖延"]];
 }
 
 #pragma mark actions
 -(void)addItem:(id)sender{
-
+    _newCoins = YES;
+    
+    [self performSegueWithIdentifier:@"useCoin" sender:self];
 }
 
 -(void)insertContent:(id)sender{
-    
-    //    if (self.isUsed) {
-    //        <#statements#>
-    //    }
-    
+    _newCoins = NO;
+    _tableBtnQueueIndex = 0;
+    for (UIButton* btn in _todayCoins.tableCellBtnQueue) {
+        if (sender == btn) {
+            break;
+        }
+        
+        _tableBtnQueueIndex++;
+    }
+
     [self performSegueWithIdentifier:@"useCoin" sender:self];
 }
 
@@ -141,22 +92,25 @@ NSMutableArray *globalUsedCoinArray;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"goldCoin";
+    int index = ((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:indexPath.row]).coinID;
     
     TodayTableViewCell *cell=nil;
-    cell = [self.tableView dequeueReusableCellWithIdentifier:identify];
+    cell = [self.tableView dequeueReusableCellWithIdentifier:[_todayCoins.tableCellIdentifyQueue objectAtIndex:index]];
     if (cell == nil) {
-        cell = [[TodayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+        cell = [[TodayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[_todayCoins.tableCellIdentifyQueue objectAtIndex:index]];
+        
+        UIButton *btn = [cell getTodoBtn];
+        if (btn) {
+            [btn addTarget:self action:@selector(insertContent:) forControlEvents:UIControlEventTouchDown];
+        }
+        
+        [_todayCoins.tableCellBtnQueue insertObject:btn atIndex:indexPath.row];
+        [cell setTime:[_todayCoins.globalTimeBox objectAtIndex:index]];
     }
     
-    int index = [((NSNumber*)[globalUsedCoinArray objectAtIndex:indexPath.row]) intValue];
-    
-    [cell setTime:[globalTimeBox objectAtIndex:index]];
-    [cell setType:[globalTypeBox objectAtIndex:1]];
-    UIButton *btn = [cell getTodoBtn];
-    if (btn) {
-        [btn addTarget:self action:@selector(insertContent:) forControlEvents:UIControlEventTouchDown];
-    }
+    //类型会改变，所以每次要重新赋值
+    [cell setType:[_todayCoins.globalTypeBox objectAtIndex:((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:indexPath.row]).type]];
+    [cell setDetail:((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:indexPath.row]).title];
 
     return cell;
 }
@@ -169,7 +123,10 @@ NSMutableArray *globalUsedCoinArray;
 #pragma mrak 重写方法
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"useCoin"]) {
-        NSLog(@"here1");
+//        NSLog(@"here");
+        id peer = segue.destinationViewController;
+        [peer setValue:[NSNumber numberWithBool:_newCoins] forKey:@"newCoins"];
+        [peer setValue:[NSNumber numberWithInt:_tableBtnQueueIndex] forKey:@"tableBtnQueueIndex"];
     }
 }
 

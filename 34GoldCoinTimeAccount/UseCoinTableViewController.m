@@ -7,17 +7,13 @@
 //
 
 #import "UseCoinTableViewController.h"
+#import "OneDayCoins.h"
 
 #define ViewHight   160
 #define ViewWidth   ([UIScreen mainScreen].bounds.size.width/2)
 #define UseCoinCellHight   40
 #define UseCoinCellWidth \
     ([UIScreen mainScreen].bounds.size.width)
-
-extern NSArray *globalWeekCn;
-extern NSArray *globalTimeBox;
-extern NSArray *globalTypeBox;
-extern NSMutableArray *globalUsedCoinArray;
 
 @interface UseCoinTableViewController ()<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
 {
@@ -45,7 +41,12 @@ extern NSMutableArray *globalUsedCoinArray;
     NSInteger _pickerMinute;
     
     NSRange _usedCoinRange;
+    
+    OneDayCoins *_todayCoins;
 }
+
+@property (assign, nonatomic) BOOL newCoins;
+@property (assign, nonatomic) int tableBtnQueueIndex;
 
 @end
 
@@ -64,6 +65,10 @@ extern NSMutableArray *globalUsedCoinArray;
 
 #pragma mark 自定义方法
 -(void)UILayout{
+//    NSLog(@"new coins: %d", self.newCoins);
+//    NSLog(@"btn index: %d", self.tableBtnQueueIndex);
+    _todayCoins = [OneDayCoins sharedOneDayCoins];
+    
     //navigation
     self.navigationItem.title = @"使用金币";
     
@@ -78,19 +83,24 @@ extern NSMutableArray *globalUsedCoinArray;
     self.tableView.delegate = self;
     
     //basic message
-    NSDate *today = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *comps =[calendar components:(NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday |NSCalendarUnitWeekdayOrdinal) fromDate:today];
-    
-    NSString *todayWeek = [globalWeekCn objectAtIndex:[comps weekday]];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
-    NSString *todayYear = [dateFormatter stringFromDate:today];
-    
-    _today = [NSString stringWithFormat:@"%@ %@", todayYear, todayWeek];
-    NSString *fromMessage = [NSString stringWithFormat:@"从 %@ 上午07:00", _today];
-    NSString *toMessage = [NSString stringWithFormat:@"到 %@ 上午07:30", _today];
+    NSString *fromMessage = nil;
+    NSString *toMessage = nil;
+    _today = [NSString stringWithFormat:@"%@ %@", _todayCoins.dateYear, _todayCoins.dateWeek];
+    if (self.newCoins == YES) {
+        fromMessage = [NSString stringWithFormat:@"从 %@ 07:00", _today];
+        toMessage = [NSString stringWithFormat:@"到 %@ 07:30", _today];
+    }
+    else
+    {
+        int index = ((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:self.tableBtnQueueIndex]).coinID;
+        NSString *timePeriod = [_todayCoins.globalTimeBox objectAtIndex:index];
+        NSLog(@"time: %@", timePeriod);
+        NSRange range = {0, 5};
+        fromMessage = [NSString stringWithFormat:@"从 %@ %@", _today, [timePeriod substringWithRange:range]];
+        range.location = 6;
+        range.length = 5;
+        toMessage = [NSString stringWithFormat:@"到 %@ %@", _today, [timePeriod substringWithRange:range]];
+    }
     
     _fromTime = 7.0;
     _toTime = 7.5;
@@ -137,25 +147,6 @@ extern NSMutableArray *globalUsedCoinArray;
     _fromDateView.layer.cornerRadius = 5;
     [self.view addSubview:_fromDateView];
     
-#if 0
-    _fromDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
-    _fromDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
-    [_fromDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
-    [_fromDateViewCancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    _fromDateViewCancelBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    
-    _fromDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, ViewHight-30, 50, 20)];
-    _fromDateViewOKBtn.backgroundColor = [UIColor darkGrayColor];
-    [_fromDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
-    [_fromDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    _fromDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    
-    [_fromDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
-    [_fromDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
-    
-    [_fromDateView addSubview:_fromDateViewOKBtn];
-    [_fromDateView addSubview:_fromDateViewCancelBtn];
-#else
     _fromDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_fromDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
     _fromDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
     [_fromDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
@@ -172,7 +163,6 @@ extern NSMutableArray *globalUsedCoinArray;
     [_fromDateView addSubview:_fromPickerView];
     _fromPickerView.dataSource = self;
     _fromPickerView.delegate = self;
-#endif
     
     //to date view
     _toDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 2*UseCoinCellHight, ViewWidth, ViewHight)];
@@ -180,26 +170,6 @@ extern NSMutableArray *globalUsedCoinArray;
     _toDateView.layer.cornerRadius = 5;
     [self.view addSubview:_toDateView];
     
-#if 0
-    _toDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
-    _toDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
-    [_toDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
-    [_toDateViewCancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    _toDateViewCancelBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    
-    _toDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(110, ViewHight-30, 50, 20)];
-    _toDateViewOKBtn.backgroundColor = [UIColor darkGrayColor];
-    [_toDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
-    [_toDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    _toDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    
-    [_toDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
-    [_toDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
-    
-    [_toDateView addSubview:_toDateViewOKBtn];
-    [_toDateView addSubview:_toDateViewCancelBtn];
-    
-#else
     _toDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_toDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
     _toDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
     [_toDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
@@ -214,7 +184,74 @@ extern NSMutableArray *globalUsedCoinArray;
     [_toDateView addSubview:_toPickerView];
     _toPickerView.dataSource = self;
     _toPickerView.delegate = self;
-#endif
+}
+
+-(void)loadCoinData{
+    if (self.newCoins == NO) {
+        return;
+    }
+    
+    Coin* coin = [_todayCoins.usedCoinQueue objectAtIndex:self.tableBtnQueueIndex];
+    
+}
+
+-(void)collectInfo:(Coin*)coin{
+    if (coin == nil) {
+        return;
+    }
+    
+    BOOL collect = NO;
+    if (_todoText.text.length != 0) {
+        if (coin.title == nil) {
+            coin.title = [[NSMutableString alloc]initWithString:_todoText.text];
+        }
+        else
+        {
+            [coin.title setString:_todoText.text];
+        }
+        
+        collect = YES;
+    }
+    
+    if (_whoText.text.length != 0) {
+        if (coin.who == nil) {
+            coin.who = [[NSMutableString alloc]initWithString:_whoText.text];
+        }
+        else
+        {
+            [coin.who setString:_whoText.text];
+        }
+        
+        collect = YES;
+    }
+    
+    if (_whereText.text.length != 0) {
+        if (coin.where == nil) {
+            coin.where = [[NSMutableString alloc]initWithString:_whereText.text];
+        }
+        else
+        {
+            [coin.where setString:_whereText.text];
+        }
+        
+        collect = YES;
+    }
+    
+    if (_detailText.text.length != 0) {
+        if (coin.detail == nil) {
+            coin.detail = [[NSMutableString alloc]initWithString:_detailText.text];
+        }
+        else
+        {
+            [coin.detail setString:_detailText.text];
+        }
+        
+        collect = YES;
+    }
+    
+    coin.used = collect;
+    
+    return;
 }
 
 #pragma mark Action
@@ -226,47 +263,61 @@ extern NSMutableArray *globalUsedCoinArray;
         return;
     }
     
-    //comppute the coin index, there may be many coins used.
-    NSInteger minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
-    NSInteger maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
-    _usedCoinRange.location = minCoin;
-    _usedCoinRange.length = maxCoin - minCoin;
-    
-    int first = [((NSNumber *)[globalUsedCoinArray firstObject]) intValue];
-    int last = [((NSNumber *)[globalUsedCoinArray lastObject]) intValue];
-
-    if (first <= _usedCoinRange.location && last  >= _usedCoinRange.location) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件开始时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    else if (first <= _usedCoinRange.location + _usedCoinRange.length - 1
-             && last >= _usedCoinRange.location + _usedCoinRange.length - 1)
-    {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件结束时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    else
-    {
-        if (last  < _usedCoinRange.location) {
-            for (NSUInteger i = _usedCoinRange.location; i < _usedCoinRange.length; i++) {
-                [globalUsedCoinArray addObject:[NSNumber numberWithInteger:i]];
+    //如果是新建 需要插入到全局队列中
+    if (self.newCoins) {
+        //comppute the coin index, there may be many coins used.
+        int minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
+        int maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
+        
+        int placeHold=-1;
+        int index=0;
+        for (Coin* coin in _todayCoins.usedCoinQueue) {
+            int coinID = coin.coinID;
+            if (minCoin <= coinID && coinID <= maxCoin) {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件执行时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
+            else if (placeHold == -1 && maxCoin < coinID)
+            {
+                placeHold =index;
+            }
+            
+            index++;
+        }
+        
+        //insert the new coin to coin queue
+        if (placeHold == -1) {
+            for (int i=minCoin; i<maxCoin; i++) {
+                Coin *coin = [[Coin alloc]init];
+                coin.coinID = i;
+                [self collectInfo:coin];
+                
+                [_todayCoins.usedCoinQueue addObject:coin];
             }
         }
         else
         {
-            NSUInteger index = 0;
-            for (NSUInteger value = _usedCoinRange.location; value < _usedCoinRange.length; value++) {
-                [globalUsedCoinArray insertObject:[NSNumber numberWithInteger:value] atIndex:index];
-                index++;
+            int coinIndex = minCoin;
+            for (int i=placeHold; i<placeHold+maxCoin-minCoin; i++) {
+                Coin *coin = [[Coin alloc]init];
+                coin.coinID = coinIndex;
+                [self collectInfo:coin];
+                
+                [_todayCoins.usedCoinQueue insertObject:coin atIndex:i];
+                coinIndex++;
             }
         }
-        
-//        for (NSNumber *i in globalUsedCoinArray) {
-//            NSLog(@"index: %d", [i intValue]);
-//        }
     }
+    else{ //不是新建，直接修改即可
+        Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:_tableBtnQueueIndex];
+        [self collectInfo:coin];
+    }
+    
+        
+//    for (Coin *i in _todayCoins.usedCoinQueue) {
+//        NSLog(@"index: %d", i.coinID);
+//    }
     
 //    NSLog(@"%ld, %ld", _usedCoinRange.location, _usedCoinRange.length);
     
@@ -299,14 +350,8 @@ extern NSMutableArray *globalUsedCoinArray;
     NSLog(@"selectDateDone");
     
     if (sender == _fromDateViewOKBtn) {
-        NSString *fromMessage = nil;
-        if (_pickerHour < 13) {
-            fromMessage = [NSString stringWithFormat:@"从 %@ 上午%02ld:%02ld", _today,_pickerHour, _pickerMinute];
-        }
-        else
-        {
-            fromMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
-        }
+        NSString *fromMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today, _pickerHour, _pickerMinute];
+
         [_fromBtn setTitle:fromMessage forState:UIControlStateNormal];
         
         if (_pickerMinute == 30) {
@@ -319,14 +364,8 @@ extern NSMutableArray *globalUsedCoinArray;
     }
     else if (sender == _toDateViewOKBtn)
     {
-        NSString *toMessage = nil;
-        if (_pickerHour < 13) {
-            toMessage = [NSString stringWithFormat:@"从 %@ 上午%02ld:%02ld", _today,_pickerHour, _pickerMinute];
-        }
-        else
-        {
-            toMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
-        }
+        NSString *toMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today,_pickerHour, _pickerMinute];
+        
         [_toBtn setTitle:toMessage forState:UIControlStateNormal];
         
         if (_pickerMinute == 30) {

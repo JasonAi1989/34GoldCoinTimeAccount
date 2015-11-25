@@ -96,7 +96,16 @@
     _typeLabel.text = [type objectAtIndex:1];
 }
 -(void) setDetail:(NSString*)detail{
-   
+//    NSLog(@"detail: %@", detail);
+    if (detail == nil || detail.length == 0) {
+        [_todoBtn setTitle:@"+" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_todoBtn setTitle:detail forState:UIControlStateNormal];
+    }
+    
+    [_todoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 }
 
 -(UIButton*) getTodoBtn{

@@ -9,7 +9,7 @@
 #ifndef common_h
 #define common_h
 
-enum GoldCoinType{
+typedef enum GoldCoinType_e{
     GCNone = 0,
     GCEffectiveWork,
     GCEffectiveEntertainment,
@@ -17,6 +17,6 @@ enum GoldCoinType{
     GCForcedWork,
     GCIneffectiveDelay,
     GCNumber
-};
+}GoldCoinType;
 
 #endif /* common_h */

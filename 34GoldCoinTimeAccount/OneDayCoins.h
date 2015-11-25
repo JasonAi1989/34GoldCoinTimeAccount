@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Singleton.h"
+#import "Coin.h"
 
 @interface OneDayCoins : NSObject
 
@@ -15,7 +16,16 @@ singleton_interface(OneDayCoins);
 
 -(instancetype)init;
 
+@property (nonatomic, copy) NSString *dateYear; //yyyy-MM-dd
+@property (nonatomic, copy) NSString *dateWeek; //星期
+
 @property (nonatomic, strong) NSMutableArray *usedCoinQueue;
 
 @property (nonatomic, strong) NSMutableArray *tableCellBtnQueue;
+@property (nonatomic, strong) NSArray *tableCellIdentifyQueue;
+
+@property (nonatomic, strong) NSArray *globalWeekCn;
+@property (nonatomic, strong) NSArray *globalTimeBox;
+@property (nonatomic, strong) NSArray *globalTypeBox;
+
 @end

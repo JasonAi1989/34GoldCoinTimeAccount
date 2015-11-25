@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "common.h"
 
 @interface Coin : NSObject 
 
--(instancetype)init:(int)coidID used:(BOOL)used title:(NSString*)title type:(NSString*)type who:(NSString*)who where:(NSString*)where detail:(NSString*)detail;
+-(instancetype)init:(int)coidID used:(BOOL)used title:(NSString*)title type:(GoldCoinType)type who:(NSString*)who where:(NSString*)where detail:(NSString*)detail;
 
 @property (assign, nonatomic) int coinID;
 @property (assign, nonatomic) BOOL used;
 @property (nonatomic, copy) NSMutableString *title;
-@property (nonatomic, copy) NSMutableString *type;
+@property (assign, nonatomic) GoldCoinType type;
 @property (nonatomic, copy) NSMutableString *who;
 @property (nonatomic, copy) NSMutableString *where;
 @property (nonatomic, copy) NSMutableString *detail;
