@@ -19,6 +19,8 @@
 		9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4411C040BBE0031BFB4 /* SetTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4441C040BED0031BFB4 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4481C040E910031BFB4 /* TodayTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3C6151C0597D500DE3FB9 /* OneDayCoins.m */; settings = {ASSET_TAGS = (); }; };
+		96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3C6181C0598C000DE3FB9 /* Coin.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,11 @@
 		9699F4471C040E910031BFB4 /* TodayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewCell.h; sourceTree = "<group>"; };
 		9699F4481C040E910031BFB4 /* TodayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewCell.m; sourceTree = "<group>"; };
 		9699F44A1C0430450031BFB4 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		96A3C6141C0597D500DE3FB9 /* OneDayCoins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneDayCoins.h; sourceTree = "<group>"; };
+		96A3C6151C0597D500DE3FB9 /* OneDayCoins.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneDayCoins.m; sourceTree = "<group>"; };
+		96A3C6171C0598C000DE3FB9 /* Coin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coin.h; sourceTree = "<group>"; };
+		96A3C6181C0598C000DE3FB9 /* Coin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coin.m; sourceTree = "<group>"; };
+		96A3C61A1C059D3100DE3FB9 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,10 +83,12 @@
 		9699F41F1C0402E70031BFB4 /* 34GoldCoinTimeAccount */ = {
 			isa = PBXGroup;
 			children = (
+				96A3C6131C0597AF00DE3FB9 /* Model */,
 				9699F4461C040E730031BFB4 /* TableCells */,
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
 				9699F44A1C0430450031BFB4 /* common.h */,
+				96A3C61A1C059D3100DE3FB9 /* Singleton.h */,
 				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
 				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
 				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
@@ -115,6 +124,17 @@
 				9699F4481C040E910031BFB4 /* TodayTableViewCell.m */,
 			);
 			name = TableCells;
+			sourceTree = "<group>";
+		};
+		96A3C6131C0597AF00DE3FB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				96A3C6141C0597D500DE3FB9 /* OneDayCoins.h */,
+				96A3C6151C0597D500DE3FB9 /* OneDayCoins.m */,
+				96A3C6171C0598C000DE3FB9 /* Coin.h */,
+				96A3C6181C0598C000DE3FB9 /* Coin.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,10 +211,12 @@
 				9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */,
 				9699F43F1C040B690031BFB4 /* LineTableViewController.m in Sources */,
 				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
+				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,
 				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
 				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
 				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
+				96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

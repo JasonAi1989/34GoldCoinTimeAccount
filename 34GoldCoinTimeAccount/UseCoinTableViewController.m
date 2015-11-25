@@ -14,10 +14,13 @@
 #define UseCoinCellWidth \
     ([UIScreen mainScreen].bounds.size.width)
 
-@interface UseCoinTableViewController ()<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+extern NSArray *globalWeekCn;
+extern NSArray *globalTimeBox;
+extern NSArray *globalTypeBox;
+extern NSMutableArray *globalUsedCoinArray;
+
+@interface UseCoinTableViewController ()<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
 {
-    NSArray *_weekCn;
-    
     UIButton *_fromBtn;
     UIButton *_toBtn;
     UITextField *_todoText;
@@ -41,7 +44,7 @@
     NSInteger _pickerHour;
     NSInteger _pickerMinute;
     
-    NSInteger _coinIndex;
+    NSRange _usedCoinRange;
 }
 
 @end
@@ -59,6 +62,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark 自定义方法
 -(void)UILayout{
     //navigation
     self.navigationItem.title = @"使用金币";
@@ -73,14 +77,12 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    [self initArray];
-    
     //basic message
     NSDate *today = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *comps =[calendar components:(NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday |NSCalendarUnitWeekdayOrdinal) fromDate:today];
     
-    NSString *todayWeek = [_weekCn objectAtIndex:[comps weekday]];
+    NSString *todayWeek = [globalWeekCn objectAtIndex:[comps weekday]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
@@ -92,7 +94,9 @@
     
     _fromTime = 7.0;
     _toTime = 7.5;
-    _coinIndex = 
+    _usedCoinRange.location = 14;
+    _usedCoinRange.length = 1;
+    
     CGRect rect = CGRectMake(15, 0, UseCoinCellWidth, UseCoinCellHight);
     
     //button
@@ -213,13 +217,60 @@
 #endif
 }
 
--(void)initArray{
-    _weekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
-}
-
 #pragma mark Action
 -(void)editDone:(id)sender{
+    // check the time
+    if (_fromTime >= _toTime) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件结束时间早于开始时间，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    //comppute the coin index, there may be many coins used.
+    NSInteger minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
+    NSInteger maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
+    _usedCoinRange.location = minCoin;
+    _usedCoinRange.length = maxCoin - minCoin;
+    
+    int first = [((NSNumber *)[globalUsedCoinArray firstObject]) intValue];
+    int last = [((NSNumber *)[globalUsedCoinArray lastObject]) intValue];
 
+    if (first <= _usedCoinRange.location && last  >= _usedCoinRange.location) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件开始时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    else if (first <= _usedCoinRange.location + _usedCoinRange.length - 1
+             && last >= _usedCoinRange.location + _usedCoinRange.length - 1)
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件结束时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    else
+    {
+        if (last  < _usedCoinRange.location) {
+            for (NSUInteger i = _usedCoinRange.location; i < _usedCoinRange.length; i++) {
+                [globalUsedCoinArray addObject:[NSNumber numberWithInteger:i]];
+            }
+        }
+        else
+        {
+            NSUInteger index = 0;
+            for (NSUInteger value = _usedCoinRange.location; value < _usedCoinRange.length; value++) {
+                [globalUsedCoinArray insertObject:[NSNumber numberWithInteger:value] atIndex:index];
+                index++;
+            }
+        }
+        
+//        for (NSNumber *i in globalUsedCoinArray) {
+//            NSLog(@"index: %d", [i intValue]);
+//        }
+    }
+    
+//    NSLog(@"%ld, %ld", _usedCoinRange.location, _usedCoinRange.length);
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)editCancel:(id)sender{
@@ -257,6 +308,14 @@
             fromMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
         }
         [_fromBtn setTitle:fromMessage forState:UIControlStateNormal];
+        
+        if (_pickerMinute == 30) {
+            _fromTime = _pickerHour + 0.5;
+        }
+        else
+        {
+            _fromTime = _pickerHour;
+        }
     }
     else if (sender == _toDateViewOKBtn)
     {
@@ -269,6 +328,14 @@
             toMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
         }
         [_toBtn setTitle:toMessage forState:UIControlStateNormal];
+        
+        if (_pickerMinute == 30) {
+            _toTime = _pickerHour + 0.5;
+        }
+        else
+        {
+            _toTime = _pickerHour;
+        }
     }
     
     [self selectDateCancel:sender];
@@ -425,5 +492,10 @@
         }
         
     }
+}
+
+#pragma mark UIAlertView delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
 }
 @end

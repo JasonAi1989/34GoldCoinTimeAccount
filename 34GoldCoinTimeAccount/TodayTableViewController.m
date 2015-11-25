@@ -9,20 +9,32 @@
 #import "TodayTableViewController.h"
 #import "TodayTableViewCell.h"
 #import "common.h"
+#import "OneDayCoins.h"
 
 #define DEFAULT_ITEMS      34
-NSArray *_weekCn;
-NSArray *_timeBox;
-NSArray *_typeBox;
+NSArray *globalWeekCn;
+NSArray *globalTimeBox;
+NSArray *globalTypeBox;
+NSMutableArray *globalUsedCoinArray;
+
 
 @interface TodayTableViewController () <UITableViewDataSource, UITableViewDelegate>
 {
-    NSInteger _minTime;
-    NSInteger _maxTime;
+    NSInteger _usedCoinNumber;
 }
 @end
 
 @implementation TodayTableViewController
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    if (_usedCoinNumber != globalUsedCoinArray.count) {
+        _usedCoinNumber = globalUsedCoinArray.count;
+        
+        [self.tableView reloadData];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +56,7 @@ NSArray *_typeBox;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *comps =[calendar components:(NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday |NSCalendarUnitWeekdayOrdinal) fromDate:today];
     
-    NSString *todayWeek = [_weekCn objectAtIndex:[comps weekday]];
+    NSString *todayWeek = [globalWeekCn objectAtIndex:[comps weekday]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
@@ -62,9 +74,9 @@ NSArray *_typeBox;
 }
 
 -(void)initArray{
-    _weekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
+    globalWeekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
     
-    _timeBox = @[@"00:00-00:30",@"00:30-01:00",\
+    globalTimeBox = @[@"00:00-00:30",@"00:30-01:00",\
                  @"01:00-01:30",@"01:30-02:00",\
                  @"02:00-02:30",@"02:30-03:00",\
                  @"03:00-03:30",@"03:30-04:00",\
@@ -89,10 +101,15 @@ NSArray *_typeBox;
                  @"22:00-22:30",@"22:30-23:00",\
                  @"23:00-23:30",@"23:30-24:00"];
     
-    _minTime = 15;
-    _maxTime = 48;
-    
-    _typeBox = @[@[[UIColor grayColor], @"暂无状态"],\
+    globalUsedCoinArray = [[NSMutableArray alloc]initWithCapacity:48];
+
+    for (int i=14; i<48; i++) {
+        [globalUsedCoinArray addObject:[NSNumber numberWithInt:i]];
+    }
+    _usedCoinNumber = globalUsedCoinArray.count;
+//    NSLog(@"number: %ld", _usedCoinNumber);
+
+    globalTypeBox = @[@[[UIColor grayColor], @"暂无状态"],\
                  @[[UIColor yellowColor], @"高效工作"],\
                  @[[UIColor blueColor], @"尽兴娱乐"],\
                  @[[UIColor greenColor], @"休息放松"],\
@@ -120,7 +137,7 @@ NSArray *_typeBox;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return DEFAULT_ITEMS;
+    return _usedCoinNumber;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -132,10 +149,10 @@ NSArray *_typeBox;
         cell = [[TodayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     }
     
-    NSInteger index = _minTime + indexPath.row - 1;
+    int index = [((NSNumber*)[globalUsedCoinArray objectAtIndex:indexPath.row]) intValue];
     
-    [cell setTime:[_timeBox objectAtIndex:index]];
-    [cell setType:[_typeBox objectAtIndex:1]];
+    [cell setTime:[globalTimeBox objectAtIndex:index]];
+    [cell setType:[globalTypeBox objectAtIndex:1]];
     UIButton *btn = [cell getTodoBtn];
     if (btn) {
         [btn addTarget:self action:@selector(insertContent:) forControlEvents:UIControlEventTouchDown];
