@@ -65,6 +65,7 @@
     _todoBtn = [[UIButton alloc]initWithFrame:todoBtnRect];
     [_todoBtn setTitle:@"+" forState:UIControlStateNormal];
     [_todoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _todoBtn.titleLabel.frame = _todoBtn.frame;
     
     CGRect spaceLabel2Rect = CGRectMake(CGRectGetMaxX(_todoBtn.frame), 0, 1, Hight);
     UILabel *spaceLabel2 = [[UILabel alloc]initWithFrame:spaceLabel2Rect];
@@ -96,7 +97,6 @@
     _typeLabel.text = [type objectAtIndex:1];
 }
 -(void) setDetail:(NSString*)detail{
-//    NSLog(@"detail: %@", detail);
     if (detail == nil || detail.length == 0) {
         [_todoBtn setTitle:@"+" forState:UIControlStateNormal];
     }
@@ -104,8 +104,9 @@
     {
         [_todoBtn setTitle:detail forState:UIControlStateNormal];
     }
-    
+
     [_todoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _todoBtn.titleLabel.frame = _todoBtn.frame;
 }
 
 -(UIButton*) getTodoBtn{

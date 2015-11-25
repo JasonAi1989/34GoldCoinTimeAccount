@@ -20,6 +20,7 @@
     UIButton *_fromBtn;
     UIButton *_toBtn;
     UITextField *_todoText;
+    UIButton *_typeBtn;
     UITextField *_whoText;
     UITextField *_whereText;
     UITextField *_detailText;
@@ -43,6 +44,15 @@
     NSRange _usedCoinRange;
     
     OneDayCoins *_todayCoins;
+    
+    UIView *_typeView;
+    UIButton *_EffectiveWorkBtn;
+    UIButton *_EffectiveEntertainmentBtn;
+    UIButton *_RestBtn;
+    UIButton *_ForcedWorkBtn;
+    UIButton *_IneffectiveDelayBtn;
+    
+    GoldCoinType _type;
 }
 
 @property (assign, nonatomic) BOOL newCoins;
@@ -94,7 +104,6 @@
     {
         int index = ((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:self.tableBtnQueueIndex]).coinID;
         NSString *timePeriod = [_todayCoins.globalTimeBox objectAtIndex:index];
-        NSLog(@"time: %@", timePeriod);
         NSRange range = {0, 5};
         fromMessage = [NSString stringWithFormat:@"从 %@ %@", _today, [timePeriod substringWithRange:range]];
         range.location = 6;
@@ -138,6 +147,8 @@
     [_detailText setTextColor:[UIColor blackColor]];
     
     [self dateUILayout];
+    
+    [self typeUILayout];
     
     [self loadCoinData];
 }
@@ -188,6 +199,72 @@
     _toPickerView.delegate = self;
 }
 
+-(void)typeUILayout{
+    _type = GCNone;
+    
+    CGRect rectBtn = CGRectMake(15, 0, UseCoinCellWidth, UseCoinCellHight);
+    _typeBtn = [[UIButton alloc]initWithFrame:rectBtn];
+    [_typeBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:0]) objectAtIndex:1] forState:UIControlStateNormal];
+
+    [_typeBtn setTitleColor:[[UIColor alloc]initWithRed:173/255.0 green:173/255.0 blue:173/255.0 alpha:0.65] forState:UIControlStateNormal];
+    _typeBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    _typeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_typeBtn addTarget:self action:@selector(selectTypeBtn:) forControlEvents:UIControlEventTouchDown];
+    
+    
+    _typeView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 4*UseCoinCellHight, ViewWidth, ViewHight+30)];
+    _typeView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    _typeView.layer.cornerRadius = 5;
+    [self.view addSubview:_typeView];
+    
+    CGRect rect = _typeView.frame;
+    rect.origin.x =10;
+    rect.origin.y =10;
+    rect.size.width -=20;
+    rect.size.height = 25;
+    
+    _EffectiveWorkBtn = [[UIButton alloc]initWithFrame:rect];
+    [_EffectiveWorkBtn setBackgroundColor:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:1]) objectAtIndex:0]];
+    [_EffectiveWorkBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:1]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_EffectiveWorkBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    rect.origin.y = CGRectGetMaxY(_EffectiveWorkBtn.frame)+10;
+    _EffectiveEntertainmentBtn = [[UIButton alloc]initWithFrame:rect];
+    [_EffectiveEntertainmentBtn setBackgroundColor:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:2]) objectAtIndex:0]];
+    [_EffectiveEntertainmentBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:2]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_EffectiveEntertainmentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    rect.origin.y = CGRectGetMaxY(_EffectiveEntertainmentBtn.frame)+10;
+    _RestBtn = [[UIButton alloc]initWithFrame:rect];
+    [_RestBtn setBackgroundColor:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:3]) objectAtIndex:0]];
+    [_RestBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:3]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_RestBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    rect.origin.y = CGRectGetMaxY(_RestBtn.frame)+10;
+    _ForcedWorkBtn = [[UIButton alloc]initWithFrame:rect];
+    [_ForcedWorkBtn setBackgroundColor:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:4]) objectAtIndex:0]];
+    [_ForcedWorkBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:4]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_ForcedWorkBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    rect.origin.y = CGRectGetMaxY(_ForcedWorkBtn.frame)+10;
+    _IneffectiveDelayBtn = [[UIButton alloc]initWithFrame:rect];
+    [_IneffectiveDelayBtn setBackgroundColor:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:5]) objectAtIndex:0]];
+    [_IneffectiveDelayBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:5]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_IneffectiveDelayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [_typeView addSubview:_EffectiveWorkBtn];
+    [_typeView addSubview:_EffectiveEntertainmentBtn];
+    [_typeView addSubview:_RestBtn];
+    [_typeView addSubview:_ForcedWorkBtn];
+    [_typeView addSubview:_IneffectiveDelayBtn];
+    
+    [_EffectiveWorkBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+    [_EffectiveEntertainmentBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+    [_RestBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+    [_ForcedWorkBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+    [_IneffectiveDelayBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+}
+
 -(void)loadCoinData{
     if (self.newCoins == YES) {
         return;
@@ -208,6 +285,13 @@
     
     if (coin.detail != nil && coin.detail.length != 0) {
         [_detailText setText:coin.detail];
+    }
+    
+    if (coin.type != GCNone) {
+        _type = coin.type;
+        [_typeBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:_type]) objectAtIndex:1] forState:UIControlStateNormal];
+        [_typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _typeBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     }
 }
 
@@ -262,6 +346,11 @@
             [coin.detail setString:_detailText.text];
         }
         
+        collect = YES;
+    }
+    
+    if (_type != GCNone) {
+        coin.type = _type;
         collect = YES;
     }
     
@@ -363,7 +452,7 @@
 }
 
 -(void)selectDateDone:(id)sender{
-    NSLog(@"selectDateDone");
+//    NSLog(@"selectDateDone");
     
     if (sender == _fromDateViewOKBtn) {
         NSString *fromMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today, _pickerHour, _pickerMinute];
@@ -397,14 +486,14 @@
 }
 
 -(void)selectDateCancel:(id)sender{
-    NSLog(@"selectDateCancel");
+//    NSLog(@"selectDateCancel");
     if (sender == _fromDateViewCancelBtn
         || sender == _fromDateViewOKBtn) {
         
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-            [self.tableView setUserInteractionEnabled:YES];
+
         }];
     }
     else if (sender == _toDateViewCancelBtn
@@ -413,9 +502,49 @@
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-            [self.tableView setUserInteractionEnabled:YES];
+
         }];
     }
+}
+
+-(void)selectTypeBtn:(id)sender{
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
+        _typeView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+20, 0);
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)typeBtn:(id)sender{
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
+        _typeView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-20, 0);
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    if (sender == _EffectiveWorkBtn) {
+        _type = GCEffectiveWork;
+    }
+    else if (sender == _EffectiveEntertainmentBtn)
+    {
+        _type = GCEffectiveEntertainment;
+    }
+    else if (sender == _RestBtn)
+    {
+        _type = GCRest;
+    }
+    else if (sender == _ForcedWorkBtn)
+    {
+        _type = GCForcedWork;
+    }
+    else if (sender == _IneffectiveDelayBtn)
+    {
+        _type = GCIneffectiveDelay;
+    }
+    
+    [_typeBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:_type]) objectAtIndex:1] forState:UIControlStateNormal];
+    [_typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _typeBtn.titleLabel.font = [UIFont systemFontOfSize:17];
 }
 
 #pragma mark - Table view data source
@@ -449,7 +578,7 @@
             [cell.contentView addSubview:_todoText];
             break;
         case 3:
-            cell.textLabel.text = @"hello";
+            [cell.contentView addSubview:_typeBtn];
             break;
         case 4:
             [cell.contentView addSubview:_whoText];

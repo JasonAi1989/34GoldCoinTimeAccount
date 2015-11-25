@@ -10,6 +10,9 @@
 #import "Singleton.h"
 #import "Coin.h"
 
+#define CommonLength 100
+#define LongLength  200
+
 @interface OneDayCoins : NSObject
 
 singleton_interface(OneDayCoins);

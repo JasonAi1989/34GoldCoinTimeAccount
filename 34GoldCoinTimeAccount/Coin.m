@@ -8,8 +8,9 @@
 
 #import "Coin.h"
 
-@implementation Coin
 
+
+@implementation Coin
 -(instancetype)init:(int)coidID used:(BOOL)used title:(NSString*)title type:(GoldCoinType)type who:(NSString*)who where:(NSString*)where detail:(NSString*)detail{
     self = [super init];
     

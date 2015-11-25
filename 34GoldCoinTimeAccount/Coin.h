@@ -15,10 +15,10 @@
 
 @property (assign, nonatomic) int coinID;
 @property (assign, nonatomic) BOOL used;
-@property (nonatomic, copy) NSMutableString *title;
+@property (nonatomic, strong) NSMutableString *title;
 @property (assign, nonatomic) GoldCoinType type;
-@property (nonatomic, copy) NSMutableString *who;
-@property (nonatomic, copy) NSMutableString *where;
-@property (nonatomic, copy) NSMutableString *detail;
+@property (nonatomic, strong) NSMutableString *who;
+@property (nonatomic, strong) NSMutableString *where;
+@property (nonatomic, strong) NSMutableString *detail;
 
 @end
