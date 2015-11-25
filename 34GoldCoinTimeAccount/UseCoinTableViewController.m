@@ -138,6 +138,8 @@
     [_detailText setTextColor:[UIColor blackColor]];
     
     [self dateUILayout];
+    
+    [self loadCoinData];
 }
 
 -(void) dateUILayout{
@@ -187,12 +189,26 @@
 }
 
 -(void)loadCoinData{
-    if (self.newCoins == NO) {
+    if (self.newCoins == YES) {
         return;
     }
     
     Coin* coin = [_todayCoins.usedCoinQueue objectAtIndex:self.tableBtnQueueIndex];
+    if (coin.title != nil && coin.title.length != 0) {
+        [_todoText setText:coin.title];
+    }
     
+    if (coin.who != nil && coin.who.length != 0) {
+        [_whoText setText:coin.who];
+    }
+    
+    if (coin.where != nil && coin.where.length !=0 ) {
+        [_whereText setText:coin.where];
+    }
+    
+    if (coin.detail != nil && coin.detail.length != 0) {
+        [_detailText setText:coin.detail];
+    }
 }
 
 -(void)collectInfo:(Coin*)coin{

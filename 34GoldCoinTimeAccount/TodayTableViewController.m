@@ -32,6 +32,9 @@
         
         [self.tableView reloadData];
     }
+    else if (_newCoins == NO) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewDidLoad {
