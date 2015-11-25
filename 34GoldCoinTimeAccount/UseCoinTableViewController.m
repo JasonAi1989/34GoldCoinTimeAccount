@@ -14,7 +14,7 @@
 #define UseCoinCellWidth \
     ([UIScreen mainScreen].bounds.size.width)
 
-@interface UseCoinTableViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface UseCoinTableViewController ()<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
     NSArray *_weekCn;
     
@@ -28,12 +28,20 @@
     UIView  *_fromDateView;
     UIButton *_fromDateViewCancelBtn;
     UIButton *_fromDateViewOKBtn;
+    UIPickerView *_fromPickerView;
+    CGFloat _fromTime;
     
     UIView  *_toDateView;
     UIButton *_toDateViewCancelBtn;
     UIButton *_toDateViewOKBtn;
+    UIPickerView *_toPickerView;
+    CGFloat _toTime;
     
-
+    NSString *_today;
+    NSInteger _pickerHour;
+    NSInteger _pickerMinute;
+    
+    NSInteger _coinIndex;
 }
 
 @end
@@ -78,9 +86,13 @@
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     NSString *todayYear = [dateFormatter stringFromDate:today];
     
-    NSString *fromMessage = [NSString stringWithFormat:@"从 %@ %@ 上午7:00", todayYear, todayWeek];
-    NSString *toMessage = [NSString stringWithFormat:@"到 %@ %@ 上午7:30", todayYear, todayWeek];
+    _today = [NSString stringWithFormat:@"%@ %@", todayYear, todayWeek];
+    NSString *fromMessage = [NSString stringWithFormat:@"从 %@ 上午07:00", _today];
+    NSString *toMessage = [NSString stringWithFormat:@"到 %@ 上午07:30", _today];
     
+    _fromTime = 7.0;
+    _toTime = 7.5;
+    _coinIndex = 
     CGRect rect = CGRectMake(15, 0, UseCoinCellWidth, UseCoinCellHight);
     
     //button
@@ -111,10 +123,17 @@
     _detailText.placeholder = @"输入事项详细内容";
     [_detailText setTextColor:[UIColor blackColor]];
     
+    [self dateUILayout];
+}
+
+-(void) dateUILayout{
     //form date view
     _fromDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, UseCoinCellHight, ViewWidth, ViewHight)];
-    _fromDateView.backgroundColor = [UIColor lightGrayColor];
- 
+    _fromDateView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    _fromDateView.layer.cornerRadius = 5;
+    [self.view addSubview:_fromDateView];
+    
+#if 0
     _fromDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
     _fromDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
     [_fromDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -126,18 +145,38 @@
     [_fromDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
     [_fromDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     _fromDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
- 
+    
     [_fromDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
     [_fromDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
     
     [_fromDateView addSubview:_fromDateViewOKBtn];
     [_fromDateView addSubview:_fromDateViewCancelBtn];
-    [self.view addSubview:_fromDateView];
+#else
+    _fromDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_fromDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
+    _fromDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
+    [_fromDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
+    [_fromDateViewOKBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _fromDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    _fromDateViewOKBtn.layer.cornerRadius = 5;
+    [_fromDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
+    [_fromDateView addSubview:_fromDateViewOKBtn];
+    
+    CGRect pickerViewRect = CGRectMake(20, 20, _fromDateView.frame.size.width-40, ViewHight-50);
+    
+    _fromPickerView = [[UIPickerView alloc]initWithFrame:pickerViewRect];
+    _fromPickerView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    [_fromDateView addSubview:_fromPickerView];
+    _fromPickerView.dataSource = self;
+    _fromPickerView.delegate = self;
+#endif
     
     //to date view
     _toDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 2*UseCoinCellHight, ViewWidth, ViewHight)];
-    _toDateView.backgroundColor = [UIColor lightGrayColor];
+    _toDateView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    _toDateView.layer.cornerRadius = 5;
+    [self.view addSubview:_toDateView];
     
+#if 0
     _toDateViewCancelBtn = [[UIButton alloc]initWithFrame:CGRectMake(30, ViewHight-30, 50, 20)];
     _toDateViewCancelBtn.backgroundColor = [UIColor darkGrayColor];
     [_toDateViewCancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -149,18 +188,36 @@
     [_toDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
     [_toDateViewOKBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     _toDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-  
+    
     [_toDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
     [_toDateViewCancelBtn addTarget:self action:@selector(selectDateCancel:) forControlEvents:UIControlEventTouchDown];
     
     [_toDateView addSubview:_toDateViewOKBtn];
     [_toDateView addSubview:_toDateViewCancelBtn];
-    [self.view addSubview:_toDateView];
+    
+#else
+    _toDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_toDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
+    _toDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
+    [_toDateViewOKBtn setTitle:@"OK" forState:UIControlStateNormal];
+    [_toDateViewOKBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _toDateViewOKBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    _toDateViewOKBtn.layer.cornerRadius = 5;
+    [_toDateViewOKBtn addTarget:self action:@selector(selectDateDone:) forControlEvents:UIControlEventTouchDown];
+    [_toDateView addSubview:_toDateViewOKBtn];
+    
+    _toPickerView = [[UIPickerView alloc]initWithFrame:pickerViewRect];
+    _toPickerView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    [_toDateView addSubview:_toPickerView];
+    _toPickerView.dataSource = self;
+    _toPickerView.delegate = self;
+#endif
 }
 
 -(void)initArray{
     _weekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
 }
+
+#pragma mark Action
 -(void)editDone:(id)sender{
 
 }
@@ -174,9 +231,7 @@
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-//            [self.tableView setUserInteractionEnabled:NO];
-//            [_fromDateView setUserInteractionEnabled:YES];
-//            [_fromDateViewCancelBtn setUserInteractionEnabled:YES];
+            
         }];
     }
     else if (sender == _toBtn)
@@ -184,28 +239,56 @@
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
-//            [self.tableView setUserInteractionEnabled:NO];
+
         }];
     }
 }
 
 -(void)selectDateDone:(id)sender{
     NSLog(@"selectDateDone");
+    
+    if (sender == _fromDateViewOKBtn) {
+        NSString *fromMessage = nil;
+        if (_pickerHour < 13) {
+            fromMessage = [NSString stringWithFormat:@"从 %@ 上午%02ld:%02ld", _today,_pickerHour, _pickerMinute];
+        }
+        else
+        {
+            fromMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
+        }
+        [_fromBtn setTitle:fromMessage forState:UIControlStateNormal];
+    }
+    else if (sender == _toDateViewOKBtn)
+    {
+        NSString *toMessage = nil;
+        if (_pickerHour < 13) {
+            toMessage = [NSString stringWithFormat:@"从 %@ 上午%02ld:%02ld", _today,_pickerHour, _pickerMinute];
+        }
+        else
+        {
+            toMessage = [NSString stringWithFormat:@"从 %@ 下午%02ld:%02ld", _today,_pickerHour-12, _pickerMinute];
+        }
+        [_toBtn setTitle:toMessage forState:UIControlStateNormal];
+    }
+    
+    [self selectDateCancel:sender];
 }
 
 -(void)selectDateCancel:(id)sender{
     NSLog(@"selectDateCancel");
-    if (sender == _fromDateViewCancelBtn) {
+    if (sender == _fromDateViewCancelBtn
+        || sender == _fromDateViewOKBtn) {
         
-        [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
+        [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
         } completion:^(BOOL finished) {
             [self.tableView setUserInteractionEnabled:YES];
         }];
     }
-    else if (sender == _toDateViewCancelBtn)
+    else if (sender == _toDateViewCancelBtn
+             || _toDateViewOKBtn)
     {
-        [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
+        [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-ViewWidth/2, 0);
         } completion:^(BOOL finished) {
             [self.tableView setUserInteractionEnabled:YES];
@@ -275,17 +358,72 @@
         return UseCoinCellHight;
 }
 
-#pragma mark - 视图控制器的触摸事件
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSLog(@"UIViewController start touch...");
+#pragma mark UIPickerView datesource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 3;
 }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSLog(@"UIViewController moving...");
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    if (component == 0) {
+        return 24;
+    }
+    else if (component == 1)
+    {
+        return 1;
+    }
+    else if (component == 2)
+    {
+        return 2;
+    }
     
+    return 0;
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSLog(@"UIViewController touch end.");
+#pragma mark UIPickerView delegate
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{
+    if (component == 1) {
+        return 15;
+    }
+    return 40;
+}
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{
+    return 25;
+}
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (component == 0) {
+        return [NSString stringWithFormat:@"%02ld", (long)row];
+    }
+    else if (component == 1)
+    {
+        return @":";
+    }
+    else
+    {
+        if (row == 0) {
+            return @"00";
+        }
+        else
+        {
+            return @"30";
+        }
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    if (component == 0) {
+        _pickerHour = row;
+    }
+    else if (component == 2)
+    {
+        if (row == 0) {
+            _pickerMinute = 0;
+        }
+        else
+        {
+            _pickerMinute = 30;
+        }
+        
+    }
 }
 @end

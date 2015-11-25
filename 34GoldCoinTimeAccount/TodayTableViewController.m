@@ -11,14 +11,14 @@
 #import "common.h"
 
 #define DEFAULT_ITEMS      34
+NSArray *_weekCn;
+NSArray *_timeBox;
+NSArray *_typeBox;
 
 @interface TodayTableViewController () <UITableViewDataSource, UITableViewDelegate>
 {
-    NSArray *_weekCn;
-    NSArray *_timeBox;
     NSInteger _minTime;
     NSInteger _maxTime;
-    NSArray *_typeBox;
 }
 @end
 
