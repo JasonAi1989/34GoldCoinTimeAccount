@@ -293,6 +293,10 @@
         [_typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _typeBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     }
+    
+    //冻结时间选项
+    [_fromBtn setEnabled:NO];
+    [_toBtn setEnabled:NO];
 }
 
 -(void)collectInfo:(Coin*)coin{
