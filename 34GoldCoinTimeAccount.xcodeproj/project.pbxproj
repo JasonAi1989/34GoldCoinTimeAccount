@@ -15,7 +15,6 @@
 		9699F4301C0402E70031BFB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9699F42F1C0402E70031BFB4 /* Assets.xcassets */; };
 		9699F4331C0402E70031BFB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4311C0402E70031BFB4 /* LaunchScreen.storyboard */; };
 		9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9699F43F1C040B690031BFB4 /* LineTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F43E1C040B690031BFB4 /* LineTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4411C040BBE0031BFB4 /* SetTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4441C040BED0031BFB4 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4481C040E910031BFB4 /* TodayTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -28,6 +27,8 @@
 		96FBF1A81C06C81200215D8C /* DbManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1A71C06C81200215D8C /* DbManager.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1AB1C06C8CB00215D8C /* CDBasketService.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1AA1C06C8CB00215D8C /* CDBasketService.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1B11C070E6E00215D8C /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1B41C07125F00215D8C /* CoinsHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1B31C07125F00215D8C /* CoinsHistory.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +45,6 @@
 		9699F4341C0402E70031BFB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewController.h; sourceTree = "<group>"; };
 		9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewController.m; sourceTree = "<group>"; };
-		9699F43D1C040B690031BFB4 /* LineTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineTableViewController.h; sourceTree = "<group>"; };
-		9699F43E1C040B690031BFB4 /* LineTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineTableViewController.m; sourceTree = "<group>"; };
 		9699F4401C040BBE0031BFB4 /* SetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetTableViewController.h; sourceTree = "<group>"; };
 		9699F4411C040BBE0031BFB4 /* SetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTableViewController.m; sourceTree = "<group>"; };
 		9699F4431C040BED0031BFB4 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
@@ -72,6 +71,10 @@
 		96FBF1AA1C06C8CB00215D8C /* CDBasketService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBasketService.m; sourceTree = "<group>"; };
 		96FBF1AC1C06C8DC00215D8C /* CDCoinService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoinService.h; sourceTree = "<group>"; };
 		96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoinService.m; sourceTree = "<group>"; };
+		96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
+		96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
+		96FBF1B21C07125F00215D8C /* CoinsHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinsHistory.h; sourceTree = "<group>"; };
+		96FBF1B31C07125F00215D8C /* CoinsHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinsHistory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +118,8 @@
 				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
 				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
 				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
-				9699F43D1C040B690031BFB4 /* LineTableViewController.h */,
-				9699F43E1C040B690031BFB4 /* LineTableViewController.m */,
+				96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */,
+				96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */,
 				9699F4401C040BBE0031BFB4 /* SetTableViewController.h */,
 				9699F4411C040BBE0031BFB4 /* SetTableViewController.m */,
 				9699F4431C040BED0031BFB4 /* ChartViewController.h */,
@@ -155,6 +158,8 @@
 				96A3C6151C0597D500DE3FB9 /* OneDayCoins.m */,
 				96A3C6171C0598C000DE3FB9 /* Coin.h */,
 				96A3C6181C0598C000DE3FB9 /* Coin.m */,
+				96FBF1B21C07125F00215D8C /* CoinsHistory.h */,
+				96FBF1B31C07125F00215D8C /* CoinsHistory.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -266,9 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96FBF1B11C070E6E00215D8C /* HistoryTableViewController.m in Sources */,
 				9699F42E1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodeld in Sources */,
 				9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */,
-				9699F43F1C040B690031BFB4 /* LineTableViewController.m in Sources */,
 				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
 				96FBF19F1C06C72500215D8C /* CDBasket+CoreDataProperties.m in Sources */,
 				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,
@@ -279,6 +284,7 @@
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
 				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
 				96FBF1AB1C06C8CB00215D8C /* CDBasketService.m in Sources */,
+				96FBF1B41C07125F00215D8C /* CoinsHistory.m in Sources */,
 				96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */,
 				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */,
