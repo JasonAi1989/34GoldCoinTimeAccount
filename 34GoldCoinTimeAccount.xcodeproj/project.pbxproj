@@ -25,6 +25,7 @@
 		96FBF1A01C06C72500215D8C /* CDBasket.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF19A1C06C72500215D8C /* CDBasket.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF19C1C06C72500215D8C /* CDCoin+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1A21C06C72500215D8C /* CDCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF19E1C06C72500215D8C /* CDCoin.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1A81C06C81200215D8C /* DbManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1A71C06C81200215D8C /* DbManager.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		96FBF19C1C06C72500215D8C /* CDCoin+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDCoin+CoreDataProperties.m"; sourceTree = "<group>"; };
 		96FBF19D1C06C72500215D8C /* CDCoin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoin.h; sourceTree = "<group>"; };
 		96FBF19E1C06C72500215D8C /* CDCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoin.m; sourceTree = "<group>"; };
+		96FBF1A61C06C81200215D8C /* DbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbManager.h; sourceTree = "<group>"; };
+		96FBF1A71C06C81200215D8C /* DbManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DbManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,13 +98,13 @@
 		9699F41F1C0402E70031BFB4 /* 34GoldCoinTimeAccount */ = {
 			isa = PBXGroup;
 			children = (
+				96FBF1A51C06C7E400215D8C /* Common */,
+				96FBF1A31C06C7D100215D8C /* Service */,
 				96FBF1961C06C71200215D8C /* ModelCD */,
 				96A3C6131C0597AF00DE3FB9 /* Model */,
 				9699F4461C040E730031BFB4 /* TableCells */,
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
-				9699F44A1C0430450031BFB4 /* common.h */,
-				96A3C61A1C059D3100DE3FB9 /* Singleton.h */,
 				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
 				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
 				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
@@ -163,6 +166,24 @@
 				96FBF19E1C06C72500215D8C /* CDCoin.m */,
 			);
 			name = ModelCD;
+			sourceTree = "<group>";
+		};
+		96FBF1A31C06C7D100215D8C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		96FBF1A51C06C7E400215D8C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				96FBF1A61C06C81200215D8C /* DbManager.h */,
+				96FBF1A71C06C81200215D8C /* DbManager.m */,
+				9699F44A1C0430450031BFB4 /* common.h */,
+				96A3C61A1C059D3100DE3FB9 /* Singleton.h */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +263,7 @@
 				96FBF19F1C06C72500215D8C /* CDBasket+CoreDataProperties.m in Sources */,
 				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,
 				96FBF1A21C06C72500215D8C /* CDCoin.m in Sources */,
+				96FBF1A81C06C81200215D8C /* DbManager.m in Sources */,
 				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,

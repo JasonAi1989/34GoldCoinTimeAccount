@@ -15,6 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CDCoin (CoreDataProperties)
 
+@property (nullable, nonatomic, retain) NSNumber *coinID;
+@property (nullable, nonatomic, retain) NSNumber *type;
+@property (nullable, nonatomic, retain) NSNumber *used;
+@property (nullable, nonatomic, retain) NSString *title;
+@property (nullable, nonatomic, retain) NSString *who;
+@property (nullable, nonatomic, retain) NSString *where;
+@property (nullable, nonatomic, retain) NSString *detail;
 @property (nullable, nonatomic, retain) CDBasket *basket;
 
 @end

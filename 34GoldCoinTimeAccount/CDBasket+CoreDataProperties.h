@@ -19,16 +19,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *month;
 @property (nullable, nonatomic, retain) NSNumber *day;
 @property (nullable, nonatomic, retain) NSNumber *week;
-@property (nullable, nonatomic, retain) NSSet<NSManagedObject *> *coins;
+@property (nullable, nonatomic, retain) NSSet<CDCoin *> *coins;
 
 @end
 
 @interface CDBasket (CoreDataGeneratedAccessors)
 
-- (void)addCoinsObject:(NSManagedObject *)value;
-- (void)removeCoinsObject:(NSManagedObject *)value;
-- (void)addCoins:(NSSet<NSManagedObject *> *)values;
-- (void)removeCoins:(NSSet<NSManagedObject *> *)values;
+- (void)addCoinsObject:(CDCoin *)value;
+- (void)removeCoinsObject:(CDCoin *)value;
+- (void)addCoins:(NSSet<CDCoin *> *)values;
+- (void)removeCoins:(NSSet<CDCoin *> *)values;
 
 @end
 

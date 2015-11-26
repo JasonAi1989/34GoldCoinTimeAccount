@@ -13,6 +13,13 @@
 
 @implementation CDCoin (CoreDataProperties)
 
+@dynamic coinID;
+@dynamic type;
+@dynamic used;
+@dynamic title;
+@dynamic who;
+@dynamic where;
+@dynamic detail;
 @dynamic basket;
 
 @end
