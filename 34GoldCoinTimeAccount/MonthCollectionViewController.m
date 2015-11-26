@@ -7,9 +7,14 @@
 //
 
 #import "MonthCollectionViewController.h"
+#import "SZCalendarPicker.h"
+#import "MonthCollectionViewCell.h"
 
 @interface MonthCollectionViewController ()
-
+{
+    CGFloat _navigationHight;
+    UIBarButtonItem *_rightBtn;
+}
 @end
 
 @implementation MonthCollectionViewController
@@ -27,7 +32,7 @@ static NSString * const reuseIdentifier = @"monthCell";
     
     [self.collectionView setBackgroundColor:[UIColor whiteColor]];
     
-    
+    [self UILayout];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,8 +44,13 @@ static NSString * const reuseIdentifier = @"monthCell";
     //navigation
     self.navigationItem.title = @"今年的12个月";
     
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"更多" style:UIBarButtonItemStylePlain target:self action:@selector(showAll:)];
-    self.navigationItem.rightBarButtonItem = rightBtn;
+    _rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"更多" style:UIBarButtonItemStylePlain target:self action:@selector(showAll:)];
+    self.navigationItem.rightBarButtonItem = _rightBtn;
+    
+    _navigationHight = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    
+    //注册自定义cell类
+    [self.collectionView registerClass:[MonthCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
 }
 
 #pragma mark Actions
@@ -61,9 +71,16 @@ static NSString * const reuseIdentifier = @"monthCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    [cell setBackgroundColor:[UIColor blueColor]];
+    //如果要使用自定义的cell，需要先注册这个自定义类
+    MonthCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+
+    [cell.titleLabel setText:[NSString stringWithFormat:@"%ld 月",(long)indexPath.row+1]];
+    [cell.titleLabel setTextColor:[UIColor brownColor]];
+    
+    [cell.contentLabel setText:@"无金币"];
+    [cell.contentLabel setTextColor:[UIColor grayColor]];
     
     return cell;
 }
@@ -81,11 +98,34 @@ static NSString * const reuseIdentifier = @"monthCell";
 }
 
 //UICollectionView被选中时调用的方法
-//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-//{
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
 //    UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 //    cell.backgroundColor = [UIColor whiteColor];
-//}
+    
+    //将日历指到指定的月
+    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    
+    [dateComponents setMonth:indexPath.row+1];
+    NSDate *specificDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+
+    //初始化日历
+    SZCalendarPicker *calendarPicker = [SZCalendarPicker showOnView:self.view];
+    calendarPicker.today = [NSDate date];
+    calendarPicker.date = specificDate;
+    calendarPicker.frame = CGRectMake(0, _navigationHight, self.view.frame.size.width, 352);
+    calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
+        
+        NSLog(@"%li-%li-%li", year,month,day);
+    };
+    calendarPicker.returnBlock = ^(){
+        //修改nivigation btn
+        [_rightBtn setTitle:@"更多"];
+    };
+    
+    //修改nivigation btn
+    [_rightBtn setTitle:@"查看"];
+}
 
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath

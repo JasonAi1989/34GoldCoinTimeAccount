@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9696F6371C076A5F00A99339 /* Calendar in Resources */ = {isa = PBXBuildFile; fileRef = 9696F6361C076A5F00A99339 /* Calendar */; settings = {ASSET_TAGS = (); }; };
+		9696F63C1C076B2B00A99339 /* SZCalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696F63B1C076B2B00A99339 /* SZCalendarCell.m */; settings = {ASSET_TAGS = (); }; };
+		9696F6431C076B4700A99339 /* SZCalendarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696F63F1C076B4700A99339 /* SZCalendarPicker.m */; settings = {ASSET_TAGS = (); }; };
+		9696F6441C076B4700A99339 /* SZCalendarPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9696F6401C076B4700A99339 /* SZCalendarPicker.xib */; settings = {ASSET_TAGS = (); }; };
+		9696F6451C076B4700A99339 /* UIColor+ZXLazy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696F6421C076B4700A99339 /* UIColor+ZXLazy.m */; settings = {ASSET_TAGS = (); }; };
+		9696F6491C076B5D00A99339 /* bt_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9696F6471C076B5D00A99339 /* bt_next@2x.png */; settings = {ASSET_TAGS = (); }; };
+		9696F64A1C076B5D00A99339 /* bt_previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9696F6481C076B5D00A99339 /* bt_previous@2x.png */; settings = {ASSET_TAGS = (); }; };
+		9696F64F1C076D6B00A99339 /* MonthCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696F64E1C076D6B00A99339 /* MonthCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4221C0402E70031BFB4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4211C0402E70031BFB4 /* main.m */; };
 		9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4241C0402E70031BFB4 /* AppDelegate.m */; };
 		9699F42B1C0402E70031BFB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4291C0402E70031BFB4 /* Main.storyboard */; };
@@ -36,6 +44,18 @@
 /* Begin PBXFileReference section */
 		96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseCoinTableViewController.h; sourceTree = "<group>"; };
 		96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseCoinTableViewController.m; sourceTree = "<group>"; };
+		9696F6361C076A5F00A99339 /* Calendar */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Calendar; path = 34GoldCoinTimeAccount/Calendar; sourceTree = "<group>"; };
+		9696F63B1C076B2B00A99339 /* SZCalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SZCalendarCell.m; path = Calendar/SZCalendarCell.m; sourceTree = "<group>"; };
+		9696F63D1C076B4700A99339 /* SZCalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SZCalendarCell.h; path = Calendar/SZCalendarCell.h; sourceTree = "<group>"; };
+		9696F63E1C076B4700A99339 /* SZCalendarPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SZCalendarPicker.h; path = Calendar/SZCalendarPicker.h; sourceTree = "<group>"; };
+		9696F63F1C076B4700A99339 /* SZCalendarPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SZCalendarPicker.m; path = Calendar/SZCalendarPicker.m; sourceTree = "<group>"; };
+		9696F6401C076B4700A99339 /* SZCalendarPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SZCalendarPicker.xib; path = Calendar/SZCalendarPicker.xib; sourceTree = "<group>"; };
+		9696F6411C076B4700A99339 /* UIColor+ZXLazy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+ZXLazy.h"; path = "Calendar/UIColor+ZXLazy.h"; sourceTree = "<group>"; };
+		9696F6421C076B4700A99339 /* UIColor+ZXLazy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ZXLazy.m"; path = "Calendar/UIColor+ZXLazy.m"; sourceTree = "<group>"; };
+		9696F6471C076B5D00A99339 /* bt_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_next@2x.png"; sourceTree = "<group>"; };
+		9696F6481C076B5D00A99339 /* bt_previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_previous@2x.png"; sourceTree = "<group>"; };
+		9696F64D1C076D6B00A99339 /* MonthCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthCollectionViewCell.h; sourceTree = "<group>"; };
+		9696F64E1C076D6B00A99339 /* MonthCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthCollectionViewCell.m; sourceTree = "<group>"; };
 		9699F41D1C0402E70031BFB4 /* 34GoldCoinTimeAccount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 34GoldCoinTimeAccount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9699F4211C0402E70031BFB4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9699F4231C0402E70031BFB4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,9 +114,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9696F63A1C076B0E00A99339 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				9696F6461C076B5D00A99339 /* Resource */,
+				9696F63D1C076B4700A99339 /* SZCalendarCell.h */,
+				9696F63B1C076B2B00A99339 /* SZCalendarCell.m */,
+				9696F63E1C076B4700A99339 /* SZCalendarPicker.h */,
+				9696F63F1C076B4700A99339 /* SZCalendarPicker.m */,
+				9696F6401C076B4700A99339 /* SZCalendarPicker.xib */,
+				9696F6411C076B4700A99339 /* UIColor+ZXLazy.h */,
+				9696F6421C076B4700A99339 /* UIColor+ZXLazy.m */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		9696F6461C076B5D00A99339 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				9696F6471C076B5D00A99339 /* bt_next@2x.png */,
+				9696F6481C076B5D00A99339 /* bt_previous@2x.png */,
+			);
+			name = Resource;
+			path = Calendar/Resource;
+			sourceTree = "<group>";
+		};
+		9696F64B1C076CBB00A99339 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
+				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
+				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
+				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
+			);
+			name = Today;
+			sourceTree = "<group>";
+		};
+		9696F64C1C076CC400A99339 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				96FBF1B81C07373300215D8C /* MonthCollectionViewController.h */,
+				96FBF1B91C07373300215D8C /* MonthCollectionViewController.m */,
+				96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */,
+				96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */,
+				9696F64D1C076D6B00A99339 /* MonthCollectionViewCell.h */,
+				9696F64E1C076D6B00A99339 /* MonthCollectionViewCell.m */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
 		9699F4141C0402E70031BFB4 = {
 			isa = PBXGroup;
 			children = (
+				9696F6361C076A5F00A99339 /* Calendar */,
 				9699F41F1C0402E70031BFB4 /* 34GoldCoinTimeAccount */,
 				9699F41E1C0402E70031BFB4 /* Products */,
 			);
@@ -113,6 +183,9 @@
 		9699F41F1C0402E70031BFB4 /* 34GoldCoinTimeAccount */ = {
 			isa = PBXGroup;
 			children = (
+				9696F64C1C076CC400A99339 /* History */,
+				9696F64B1C076CBB00A99339 /* Today */,
+				9696F63A1C076B0E00A99339 /* Calendar */,
 				96FBF1A51C06C7E400215D8C /* Common */,
 				96FBF1A31C06C7D100215D8C /* Service */,
 				96FBF1961C06C71200215D8C /* ModelCD */,
@@ -120,16 +193,8 @@
 				9699F4461C040E730031BFB4 /* TableCells */,
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
-				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
-				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
 				96FBF1B51C071F5A00215D8C /* LaunchViewController.h */,
 				96FBF1B61C071F5A00215D8C /* LaunchViewController.m */,
-				96FBF1B81C07373300215D8C /* MonthCollectionViewController.h */,
-				96FBF1B91C07373300215D8C /* MonthCollectionViewController.m */,
-				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
-				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
-				96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */,
-				96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */,
 				9699F4401C040BBE0031BFB4 /* SetTableViewController.h */,
 				9699F4411C040BBE0031BFB4 /* SetTableViewController.m */,
 				9699F4431C040BED0031BFB4 /* ChartViewController.h */,
@@ -269,8 +334,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9699F4331C0402E70031BFB4 /* LaunchScreen.storyboard in Resources */,
+				9696F6441C076B4700A99339 /* SZCalendarPicker.xib in Resources */,
 				9699F4301C0402E70031BFB4 /* Assets.xcassets in Resources */,
+				9696F6371C076A5F00A99339 /* Calendar in Resources */,
+				9696F64A1C076B5D00A99339 /* bt_previous@2x.png in Resources */,
 				9699F42B1C0402E70031BFB4 /* Main.storyboard in Resources */,
+				9696F6491C076B5D00A99339 /* bt_next@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +358,10 @@
 				96FBF19F1C06C72500215D8C /* CDBasket+CoreDataProperties.m in Sources */,
 				96FBF1BA1C07373300215D8C /* MonthCollectionViewController.m in Sources */,
 				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,
+				9696F6431C076B4700A99339 /* SZCalendarPicker.m in Sources */,
+				9696F63C1C076B2B00A99339 /* SZCalendarCell.m in Sources */,
 				96FBF1A21C06C72500215D8C /* CDCoin.m in Sources */,
+				9696F64F1C076D6B00A99339 /* MonthCollectionViewCell.m in Sources */,
 				96FBF1A81C06C81200215D8C /* DbManager.m in Sources */,
 				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */,
@@ -300,6 +372,7 @@
 				96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */,
 				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */,
+				9696F6451C076B4700A99339 /* UIColor+ZXLazy.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
 				96FBF1A01C06C72500215D8C /* CDBasket.m in Sources */,
 			);
