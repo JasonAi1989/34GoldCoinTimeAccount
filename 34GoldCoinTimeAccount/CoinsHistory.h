@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Singleton.h"
+#import "Coin.h"
+#import "CDCoin.h"
 
 @interface CoinsHistory : NSObject
 singleton_interface(CoinsHistory);
@@ -19,7 +21,7 @@ singleton_interface(CoinsHistory);
 @property (assign, nonatomic) int years;
 @property (assign, nonatomic) int months;
 @property (assign, nonatomic) int64_t days;
-@property (assign, nonatomic) int64_t hours;
+@property (assign, nonatomic) Float32 hours;
 @property (assign, nonatomic) int64_t coins;
 
 @property (assign, nonatomic) int64_t coinsEffectiveWork;
@@ -28,4 +30,6 @@ singleton_interface(CoinsHistory);
 @property (assign, nonatomic) int64_t coinsForcedWork;
 @property (assign, nonatomic) int64_t coinsIneffectiveDelay;
 
+-(void)addNewCoin:(Coin*)coin;
+-(void)addNewCDCoin:(CDCoin *)coin;
 @end

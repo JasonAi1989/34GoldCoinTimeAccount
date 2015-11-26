@@ -10,6 +10,7 @@
 #import "OneDayCoins.h"
 #import "CDCoinService.h"
 #import "CDBasketService.h"
+#import "CoinsHistory.h"
 
 #define ViewHight   160
 #define ViewWidth   ([UIScreen mainScreen].bounds.size.width/2)
@@ -368,12 +369,15 @@
 -(void)writeToCoreData:(Coin*)coin Basket:(CDBasket*)basket{
     CDCoinService *cs = [CDCoinService sharedCDCoinService];
 
+    //add new coin
     if ([cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]] == nil) {
         [cs addCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
         
         [basket addCoinsObject:[cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]]];
+        
+        [[CoinsHistory sharedCoinsHistory] addNewCoin:coin];
     }
-    else
+    else //modify the old coin
     {
         [cs modifyCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
     }
@@ -390,10 +394,6 @@
     
     //get the basket to contain the coins
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
-    if (basket == nil) {
-        [[CDBasketService sharedCDBasketService] addBasketWithDate:_todayCoins.dateYear];
-        basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
-    }
     
     //如果是新建 需要插入到全局队列中
     if (self.newCoins) {

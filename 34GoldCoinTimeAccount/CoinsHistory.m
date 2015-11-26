@@ -21,6 +21,7 @@ singleton_implementation(CoinsHistory);
         
         self.days = basketArray.count;
         self.coins = coinsArray.count;
+        self.hours = self.coins/2.0;
         
         for (CDCoin* coin in coinsArray) {
             switch ([coin.type intValue]) {
@@ -47,5 +48,64 @@ singleton_implementation(CoinsHistory);
     }
     
     return self;
+}
+
+-(void)addNewCoin:(Coin*)coin{
+    if (coin == nil) {
+        return;
+    }
+    
+    self.coins++;
+    switch (coin.type) {
+        case 1:
+            self.coinsEffectiveWork++;
+            break;
+        case 2:
+            self.coinsEffectiveEntertainment++;
+            break;
+        case 3:
+            self.coinsRest++;
+            break;
+        case 4:
+            self.coinsForcedWork++;
+            break;
+        case 5:
+            self.coinsIneffectiveDelay++;
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.hours = self.coins/2.0;
+}
+-(void)addNewCDCoin:(CDCoin *)coin{
+    if (coin == nil) {
+        return;
+    }
+    
+    self.coins++;
+    switch ([coin.type intValue]) {
+        case 1:
+            self.coinsEffectiveWork++;
+            break;
+        case 2:
+            self.coinsEffectiveEntertainment++;
+            break;
+        case 3:
+            self.coinsRest++;
+            break;
+        case 4:
+            self.coinsForcedWork++;
+            break;
+        case 5:
+            self.coinsIneffectiveDelay++;
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.hours = self.coins/2.0;
 }
 @end

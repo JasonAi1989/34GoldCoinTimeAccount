@@ -56,9 +56,6 @@
     //load default coins
     [self loadDefaultCoins];
     
-    //load the basket coins
-    [self loadCDBasketCoins];
-    
     //navigation
     self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", _todayCoins.dateYear, _todayCoins.dateWeek];
     
@@ -74,93 +71,7 @@
     _todayCoins = [OneDayCoins sharedOneDayCoins];
     _usedCoinNumber = _todayCoins.usedCoinQueue.count;
 }
--(void)loadCDBasketCoins{
-    CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
-    if (basket == nil) {
-        [[CDBasketService sharedCDBasketService] addBasketWithDate:_todayCoins.dateYear];
-        return;
-    }
-    
-    //取出来的值是乱序的
-    [basket.coins enumerateObjectsUsingBlock:^(CDCoin * _Nonnull obj, BOOL * _Nonnull stop) {
-        int index = 0;
-        for (Coin* coin in _todayCoins.usedCoinQueue) {
-            //可以直接修改
-            if (coin.coinID == [obj.coinID intValue]) {
-                coin.used = [obj.used boolValue];
-                
-                if (obj.title != nil) {
-                    if (coin.title == nil) {
-                        coin.title = [[NSMutableString alloc]initWithString:obj.title];
-                    }
-                    else
-                    {
-                        [coin.title setString:obj.title];
-                    }
-                }
 
-                coin.type = [obj.type intValue];
-                
-                if (obj.who != nil) {
-                    if (coin.who == nil) {
-                        coin.who = [[NSMutableString alloc]initWithString:obj.who];
-                    }
-                    else
-                    {
-                        [coin.who setString:obj.who];
-                    }
-                }
-                
-                if (obj.where != nil) {
-                    if (coin.where == nil) {
-                        coin.where = [[NSMutableString alloc]initWithString:obj.where];
-                    }
-                    else
-                    {
-                        [coin.where setString:obj.where];
-                    }
-                }
-                
-                if (obj.detail != nil) {
-                    if (coin.detail == nil) {
-                        coin.detail = [[NSMutableString alloc]initWithString:obj.detail];
-                    }
-                    else
-                    {
-                        [coin.detail setString:obj.detail];
-                    }
-                }
-                
-                *stop = NO;
-                return;
-            }
-            //在前面插入
-            else if (coin.coinID > [obj.coinID intValue])
-            {
-                Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
-                [_todayCoins.usedCoinQueue insertObject:newCoin atIndex:index];
-                *stop = NO;
-                return;
-            }
-            
-            index++;
-        }
-        
-        //遍历完了之后发现可以在后面插入
-        Coin* coin = [_todayCoins.usedCoinQueue lastObject];
-        if (coin.coinID < 47) {
-            Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
-            [_todayCoins.usedCoinQueue addObject:newCoin];
-        }
-        
-        *stop = NO;
-    }];
-    
-//    for (Coin*coin in _todayCoins.usedCoinQueue) {
-//        NSLog(@"coin id:%d", coin.coinID);
-//        NSLog(@"coin title: %@", coin.title);
-//    }
-}
 
 #pragma mark actions
 -(void)addItem:(id)sender{
