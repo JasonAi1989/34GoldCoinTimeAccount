@@ -18,21 +18,66 @@ singleton_implementation(CDBasketService)
 }
 
 -(void)addBasket:(CDBasket*) basket{
-
+    [self addBasketWithYear:basket.year Month:basket.month Day:basket.day];
 }
 
--(void)addBasketWithYear:(int)year Month:(int)month Day:(int)day{
-
+-(void)addBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
+    CDBasket *basket = [NSEntityDescription insertNewObjectForEntityForName:@"CDBasket" inManagedObjectContext:self.context];
+    
+    basket.year = year;
+    basket.month = month;
+    basket.day = day;
+    basket.date = [self dateFormatWithYear:year Month:month Day:day];
+    
+    NSError *error=nil;
+    //保存上下文
+    if (![self.context save:&error]) {
+        NSLog(@"添加过程中发生错误,错误信息：%@！",error.localizedDescription);
+    }
 }
 
 -(void)removeBasket:(CDBasket*) basket{
-
+    if (basket == nil) {
+        return;
+    }
+    
+    [self.context deleteObject:basket];
+    
+    NSError *error=nil;
+    //保存上下文
+    if (![self.context save:&error]) {
+        NSLog(@"删除过程中发生错误，错误信息：%@!",error.localizedDescription);
+    }
 }
--(void)removeBasketWithYear:(int)year Month:(int)month Day:(int)day{
-
+-(void)removeBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
+    CDBasket *basket = [self getBasketWithYear:year Month:month Day:day];
+    
+    [self removeBasket:basket];
 }
 
--(CDBasket *)getBasketWithYear:(int)year Month:(int)month Day:(int)day{
-    return nil;
+-(CDBasket *)getBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
+    //实例化查询
+    NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
+    
+    //使用谓词查询是基于Keypath查询的，如果键是一个变量，格式化字符串时需要使用%K而不是%@
+    result.predicate = [NSPredicate predicateWithFormat:@"%K=%@", @"date", [self dateFormatWithYear:year Month:month Day:day]];
+    
+    NSError *error=nil;
+    CDBasket *basket=nil;
+    NSArray *results = [self.context executeFetchRequest:result error:&error];
+    
+    if (error) {
+        NSLog(@"查询过程中发生错误，错误信息：%@！",error.localizedDescription);
+    }
+    else
+    {
+        basket = [results firstObject];
+    }
+        
+    return basket;
+}
+
+-(NSString*)dateFormatWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
+    return [NSString stringWithFormat:@"%04d-%02d-%02d", [year intValue], [month intValue], [day intValue]];
 }
 @end

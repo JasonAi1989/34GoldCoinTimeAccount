@@ -18,11 +18,11 @@
 singleton_interface(CDCoinService);
 
 -(void)addCoin:(CDCoin*) coin;
--(void)addCoinWithCoinID:(int)coinID Used:(BOOL)used Title:(NSString*)title Type:(int16_t)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail;
+-(void)addCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail;
 
 -(void)removeCoin:(CDCoin*) coin;
--(void)removeCoinWithCoinID:(int)coinID;
+-(void)removeCoinWithCoinID:(NSNumber*)coinID;
 
--(CDCoin *)getCoinWithCoinID:(int)coinID;
+-(CDCoin *)getCoinWithCoinID:(NSNumber*)coinID;
 
 @end

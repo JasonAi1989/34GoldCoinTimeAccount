@@ -17,6 +17,7 @@
 @dynamic month;
 @dynamic day;
 @dynamic week;
+@dynamic date;
 @dynamic coins;
 
 @end

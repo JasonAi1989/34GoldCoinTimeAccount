@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *month;
 @property (nullable, nonatomic, retain) NSNumber *day;
 @property (nullable, nonatomic, retain) NSNumber *week;
+@property (nullable, nonatomic, retain) NSString *date;
 @property (nullable, nonatomic, retain) NSSet<CDCoin *> *coins;
 
 @end
