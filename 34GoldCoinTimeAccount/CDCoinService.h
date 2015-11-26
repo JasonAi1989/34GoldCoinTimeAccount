@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "Singleton.h"
 #import "CDCoin.h"
+#import "CDBasket.h"
 
 @interface CDCoinService : NSObject
 
@@ -18,7 +19,7 @@
 singleton_interface(CDCoinService);
 
 -(void)addCoin:(CDCoin*) coin;
--(void)addCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail;
+-(void)addCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail Basket:(CDBasket*)basket;
 
 -(void)removeCoin:(CDCoin*) coin;
 -(void)removeCoinWithCoinID:(NSNumber*)coinID;

@@ -18,9 +18,9 @@ singleton_implementation(CDCoinService)
 }
 
 -(void)addCoin:(CDCoin*) coin{
-    [self addCoinWithCoinID:coin.coinID Used:coin.used Title:coin.title Type:coin.type Who:coin.who Where:coin.where Detail:coin.detail];
+    [self addCoinWithCoinID:coin.coinID coin:.used coin.title coin.type coin.who coin.where coin.detail coin.basket];
 }
--(void)addCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail{
+-(void)addCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail Basket:(CDBasket*)basket{
     CDCoin *coin = [NSEntityDescription insertNewObjectForEntityForName:@"CDCoin" inManagedObjectContext:self.context];
     
     coin.coinID = coinID;
