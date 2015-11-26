@@ -49,7 +49,7 @@
 #pragma mark Actions
 -(void)gotoDetail:(id)sender{
 
-
+    [self performSegueWithIdentifier:@"gotoDetail" sender:self];
 }
 
 #pragma mark - Table view data source
