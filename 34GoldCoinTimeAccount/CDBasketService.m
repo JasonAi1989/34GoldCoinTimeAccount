@@ -36,6 +36,27 @@ singleton_implementation(CDBasketService)
     }
 }
 
+-(void)addBasketWithDate:(NSString*)date{
+    CDBasket *basket = [NSEntityDescription insertNewObjectForEntityForName:@"CDBasket" inManagedObjectContext:self.context];
+    NSRange range = {0,4};
+    basket.year = [NSNumber numberWithInt:[[date substringWithRange:range] intValue]];
+    
+    range.location = 5;
+    range.length = 2;
+    basket.month = [NSNumber numberWithInt:[[date substringWithRange:range] intValue]];;
+
+    range.location = 8;
+    range.length = 2;
+    basket.day = [NSNumber numberWithInt:[[date substringWithRange:range] intValue]];;;
+    basket.date = date;
+    
+    NSError *error=nil;
+    //保存上下文
+    if (![self.context save:&error]) {
+        NSLog(@"添加过程中发生错误,错误信息：%@！",error.localizedDescription);
+    }
+}
+
 -(void)removeBasket:(CDBasket*) basket{
     if (basket == nil) {
         return;
@@ -56,11 +77,15 @@ singleton_implementation(CDBasketService)
 }
 
 -(CDBasket *)getBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
+    return [self getBasketWithDate:[self dateFormatWithYear:year Month:month Day:day]];
+}
+
+-(CDBasket *)getBasketWithDate:(NSString*)date{
     //实例化查询
     NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
     
     //使用谓词查询是基于Keypath查询的，如果键是一个变量，格式化字符串时需要使用%K而不是%@
-    result.predicate = [NSPredicate predicateWithFormat:@"%K=%@", @"date", [self dateFormatWithYear:year Month:month Day:day]];
+    result.predicate = [NSPredicate predicateWithFormat:@"%K=%@", @"date", date];
     
     NSError *error=nil;
     CDBasket *basket=nil;
@@ -73,7 +98,7 @@ singleton_implementation(CDBasketService)
     {
         basket = [results firstObject];
     }
-        
+    
     return basket;
 }
 

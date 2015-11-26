@@ -17,11 +17,22 @@
     if (self) {
         self.coinID = coidID;
         self.used = used;
-        self.title = [[NSMutableString alloc]initWithString:title];
+        if (title != nil) {
+            self.title = [[NSMutableString alloc]initWithString:title];
+        }
+        
         self.type = type;
-        self.who = [[NSMutableString alloc]initWithString:who];
-        self.where = [[NSMutableString alloc]initWithString:where];
-        self.detail = [[NSMutableString alloc]initWithString:detail];
+        if (who != nil) {
+            self.who = [[NSMutableString alloc]initWithString:who];
+        }
+        
+        if (where != nil) {
+            self.where = [[NSMutableString alloc]initWithString:where];
+        }
+        
+        if (detail != nil) {
+            self.detail = [[NSMutableString alloc]initWithString:detail];
+        }
     }
     
     return self;

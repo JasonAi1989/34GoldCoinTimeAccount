@@ -20,10 +20,12 @@ singleton_interface(CDBasketService);
 
 -(void)addBasket:(CDBasket*) basket;
 -(void)addBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day;
+-(void)addBasketWithDate:(NSString*)date;
 
 -(void)removeBasket:(CDBasket*) basket;
 -(void)removeBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day;
 
 -(CDBasket *)getBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day;
+-(CDBasket *)getBasketWithDate:(NSString*)date;
 
 @end

@@ -8,6 +8,8 @@
 
 #import "UseCoinTableViewController.h"
 #import "OneDayCoins.h"
+#import "CDCoinService.h"
+#import "CDBasketService.h"
 
 #define ViewHight   160
 #define ViewWidth   ([UIScreen mainScreen].bounds.size.width/2)
@@ -363,6 +365,20 @@
     return;
 }
 
+-(void)writeToCoreData:(Coin*)coin Basket:(CDBasket*)basket{
+    CDCoinService *cs = [CDCoinService sharedCDCoinService];
+
+    if ([cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]] == nil) {
+        [cs addCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
+        
+        [basket addCoinsObject:[cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]]];
+    }
+    else
+    {
+        [cs modifyCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
+    }
+}
+
 #pragma mark Action
 -(void)editDone:(id)sender{
     // check the time
@@ -370,6 +386,13 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件结束时间早于开始时间，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
+    }
+    
+    //get the basket to contain the coins
+    CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
+    if (basket == nil) {
+        [[CDBasketService sharedCDBasketService] addBasketWithDate:_todayCoins.dateYear];
+        basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
     }
     
     //如果是新建 需要插入到全局队列中
@@ -403,6 +426,9 @@
                 [self collectInfo:coin];
                 
                 [_todayCoins.usedCoinQueue addObject:coin];
+                
+                //write the coin to the basket core data
+                [self writeToCoreData:coin Basket:basket];
             }
         }
         else
@@ -414,6 +440,10 @@
                 [self collectInfo:coin];
                 
                 [_todayCoins.usedCoinQueue insertObject:coin atIndex:i];
+                
+                //write the coin to the basket core data
+                [self writeToCoreData:coin Basket:basket];
+                
                 coinIndex++;
             }
         }
@@ -421,6 +451,8 @@
     else{ //不是新建，直接修改即可
         Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:_tableBtnQueueIndex];
         [self collectInfo:coin];
+        
+        [self writeToCoreData:coin Basket:basket];
     }
     
         
@@ -429,6 +461,9 @@
 //    }
     
 //    NSLog(@"%ld, %ld", _usedCoinRange.location, _usedCoinRange.length);
+    
+    
+    
     
     [self.navigationController popViewControllerAnimated:YES];
 }

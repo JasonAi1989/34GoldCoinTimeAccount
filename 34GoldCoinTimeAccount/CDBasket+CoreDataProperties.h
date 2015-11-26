@@ -10,6 +10,7 @@
 //
 
 #import "CDBasket.h"
+#import "CDCoin.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
