@@ -26,6 +26,8 @@
 		96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF19C1C06C72500215D8C /* CDCoin+CoreDataProperties.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1A21C06C72500215D8C /* CDCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF19E1C06C72500215D8C /* CDCoin.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1A81C06C81200215D8C /* DbManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1A71C06C81200215D8C /* DbManager.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1AB1C06C8CB00215D8C /* CDBasketService.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1AA1C06C8CB00215D8C /* CDBasketService.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,10 @@
 		96FBF19E1C06C72500215D8C /* CDCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoin.m; sourceTree = "<group>"; };
 		96FBF1A61C06C81200215D8C /* DbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbManager.h; sourceTree = "<group>"; };
 		96FBF1A71C06C81200215D8C /* DbManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DbManager.m; sourceTree = "<group>"; };
+		96FBF1A91C06C8CB00215D8C /* CDBasketService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBasketService.h; sourceTree = "<group>"; };
+		96FBF1AA1C06C8CB00215D8C /* CDBasketService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBasketService.m; sourceTree = "<group>"; };
+		96FBF1AC1C06C8DC00215D8C /* CDCoinService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoinService.h; sourceTree = "<group>"; };
+		96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoinService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +177,10 @@
 		96FBF1A31C06C7D100215D8C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				96FBF1A91C06C8CB00215D8C /* CDBasketService.h */,
+				96FBF1AA1C06C8CB00215D8C /* CDBasketService.m */,
+				96FBF1AC1C06C8DC00215D8C /* CDCoinService.h */,
+				96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -268,6 +278,8 @@
 				96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
 				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
+				96FBF1AB1C06C8CB00215D8C /* CDBasketService.m in Sources */,
+				96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */,
 				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
