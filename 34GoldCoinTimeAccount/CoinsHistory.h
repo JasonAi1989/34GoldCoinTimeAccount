@@ -18,7 +18,7 @@ singleton_interface(CoinsHistory);
 
 @property (assign, nonatomic) int years;
 @property (assign, nonatomic) int months;
-@property (assign, nonatomic) int days;
+@property (assign, nonatomic) int64_t days;
 @property (assign, nonatomic) int64_t hours;
 @property (assign, nonatomic) int64_t coins;
 

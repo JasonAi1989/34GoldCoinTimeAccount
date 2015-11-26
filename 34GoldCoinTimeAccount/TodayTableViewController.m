@@ -83,8 +83,6 @@
     
     //取出来的值是乱序的
     [basket.coins enumerateObjectsUsingBlock:^(CDCoin * _Nonnull obj, BOOL * _Nonnull stop) {
-        NSLog(@"coinid: %d", [obj.coinID intValue]);
-        
         int index = 0;
         for (Coin* coin in _todayCoins.usedCoinQueue) {
             //可以直接修改
@@ -133,15 +131,12 @@
                     }
                 }
                 
-            
-                NSLog(@"==");
                 *stop = NO;
                 return;
             }
             //在前面插入
             else if (coin.coinID > [obj.coinID intValue])
             {
-                NSLog(@"> id: %d", coin.coinID);
                 Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
                 [_todayCoins.usedCoinQueue insertObject:newCoin atIndex:index];
                 *stop = NO;
@@ -154,7 +149,6 @@
         //遍历完了之后发现可以在后面插入
         Coin* coin = [_todayCoins.usedCoinQueue lastObject];
         if (coin.coinID < 47) {
-            NSLog(@"add");
             Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
             [_todayCoins.usedCoinQueue addObject:newCoin];
         }
@@ -162,10 +156,10 @@
         *stop = NO;
     }];
     
-    for (Coin*coin in _todayCoins.usedCoinQueue) {
-        NSLog(@"coin id:%d", coin.coinID);
-        NSLog(@"coin title: %@", coin.title);
-    }
+//    for (Coin*coin in _todayCoins.usedCoinQueue) {
+//        NSLog(@"coin id:%d", coin.coinID);
+//        NSLog(@"coin title: %@", coin.title);
+//    }
 }
 
 #pragma mark actions

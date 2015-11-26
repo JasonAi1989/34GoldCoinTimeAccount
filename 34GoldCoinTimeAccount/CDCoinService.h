@@ -29,4 +29,5 @@ singleton_interface(CDCoinService);
 -(void)modifyCoin:(CDCoin*) coin;
 -(void)modifyCoinWithCoinID:(NSNumber*)coinID Used:(NSNumber*)used Title:(NSString*)title Type:(NSNumber*)type Who:(NSString*)who Where:(NSString*)where Detail:(NSString*)detail Basket:(CDBasket*)basket;
 
+-(NSArray*)getAllCoins;
 @end

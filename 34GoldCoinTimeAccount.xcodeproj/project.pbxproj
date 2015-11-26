@@ -29,6 +29,7 @@
 		96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1AD1C06C8DC00215D8C /* CDCoinService.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1B11C070E6E00215D8C /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		96FBF1B41C07125F00215D8C /* CoinsHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1B31C07125F00215D8C /* CoinsHistory.m */; settings = {ASSET_TAGS = (); }; };
+		96FBF1B71C071F5A00215D8C /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FBF1B61C071F5A00215D8C /* LaunchViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,8 @@
 		96FBF1B01C070E6E00215D8C /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
 		96FBF1B21C07125F00215D8C /* CoinsHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinsHistory.h; sourceTree = "<group>"; };
 		96FBF1B31C07125F00215D8C /* CoinsHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinsHistory.m; sourceTree = "<group>"; };
+		96FBF1B51C071F5A00215D8C /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
+		96FBF1B61C071F5A00215D8C /* LaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
 				96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */,
 				96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */,
+				96FBF1B51C071F5A00215D8C /* LaunchViewController.h */,
+				96FBF1B61C071F5A00215D8C /* LaunchViewController.m */,
 				9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */,
 				9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */,
 				96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */,
@@ -274,6 +279,7 @@
 				96FBF1B11C070E6E00215D8C /* HistoryTableViewController.m in Sources */,
 				9699F42E1C0402E70031BFB4 /* _4GoldCoinTimeAccount.xcdatamodeld in Sources */,
 				9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */,
+				96FBF1B71C071F5A00215D8C /* LaunchViewController.m in Sources */,
 				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
 				96FBF19F1C06C72500215D8C /* CDBasket+CoreDataProperties.m in Sources */,
 				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,

@@ -102,6 +102,20 @@ singleton_implementation(CDBasketService)
     return basket;
 }
 
+-(NSArray*)getAllBasket{
+    //实例化查询
+    NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
+    
+    NSError *error=nil;
+    NSArray *results = [self.context executeFetchRequest:result error:&error];
+    
+    if (error) {
+        NSLog(@"查询过程中发生错误，错误信息：%@！",error.localizedDescription);
+        return nil;
+    }
+    return results;
+}
+
 -(NSString*)dateFormatWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
     return [NSString stringWithFormat:@"%04d-%02d-%02d", [year intValue], [month intValue], [day intValue]];
 }

@@ -96,4 +96,17 @@ singleton_implementation(CDCoinService)
     }
 }
 
+-(NSArray*)getAllCoins{
+    NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDCoin"];
+    
+    NSError *error=nil;
+    NSArray *results = [self.context executeFetchRequest:result error:&error];
+    if (error) {
+        NSLog(@"查询过程中发生错误，错误信息：%@！",error.localizedDescription);
+        return nil;
+    }
+    
+    return results;
+}
+
 @end

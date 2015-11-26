@@ -28,4 +28,6 @@ singleton_interface(CDBasketService);
 -(CDBasket *)getBasketWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day;
 -(CDBasket *)getBasketWithDate:(NSString*)date;
 
+-(NSArray*)getAllBasket;
+
 @end
