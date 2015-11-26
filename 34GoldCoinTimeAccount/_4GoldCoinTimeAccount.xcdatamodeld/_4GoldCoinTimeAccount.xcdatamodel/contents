@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8193.2" systemVersion="15B42" minimumToolsVersion="Automatic">
+    <entity name="CDBasket" representedClassName="CDBasket" syncable="YES">
+        <attribute name="day" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="week" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="coins" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDCoin" inverseName="basket" inverseEntity="CDCoin" syncable="YES"/>
+    </entity>
+    <entity name="CDCoin" representedClassName="CDCoin" syncable="YES">
+        <relationship name="basket" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDBasket" inverseName="coins" inverseEntity="CDBasket" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CDBasket" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="CDCoin" positionX="-54" positionY="-9" width="128" height="60"/>
+    </elements>
 </model>
