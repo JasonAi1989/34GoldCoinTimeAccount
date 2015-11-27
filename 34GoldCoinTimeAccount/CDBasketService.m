@@ -80,6 +80,14 @@ singleton_implementation(CDBasketService)
     return [self getBasketWithDate:[self dateFormatWithYear:year Month:month Day:day]];
 }
 
+-(NSArray *)getBasketWithYear:(NSNumber*)year Month:(NSNumber*)month{
+    return [self getBasketWithUnexectDate:[self dateFormatWithYear:year Month:month Day:nil]];
+}
+
+-(NSArray *)getBasketWithYear:(NSNumber*)year{
+    return [self getBasketWithUnexectDate:[self dateFormatWithYear:year Month:nil Day:nil]];
+}
+
 -(CDBasket *)getBasketWithDate:(NSString*)date{
     //实例化查询
     NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
@@ -102,6 +110,23 @@ singleton_implementation(CDBasketService)
     return basket;
 }
 
+-(NSArray *)getBasketWithUnexectDate:(NSString*)date{
+    //实例化查询
+    NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
+
+    //使用谓词查询是基于Keypath查询的，如果键是一个变量，格式化字符串时需要使用%K而不是%@
+    result.predicate = [NSPredicate predicateWithFormat:@"date BEGINSWITH[cd] %@", date];
+    
+    NSError *error=nil;
+    NSArray *results = [self.context executeFetchRequest:result error:&error];
+    
+    if (error) {
+        NSLog(@"查询过程中发生错误，错误信息：%@！",error.localizedDescription);
+    }
+
+    return results;
+}
+
 -(NSArray*)getAllBasket{
     //实例化查询
     NSFetchRequest *result = [NSFetchRequest fetchRequestWithEntityName:@"CDBasket"];
@@ -117,6 +142,20 @@ singleton_implementation(CDBasketService)
 }
 
 -(NSString*)dateFormatWithYear:(NSNumber*)year Month:(NSNumber*)month Day:(NSNumber*)day{
-    return [NSString stringWithFormat:@"%04d-%02d-%02d", [year intValue], [month intValue], [day intValue]];
+    if (year && month && day) {
+        return [NSString stringWithFormat:@"%04d-%02d-%02d", [year intValue], [month intValue], [day intValue]];
+    }
+    else if (year && month)
+    {
+        return [NSString stringWithFormat:@"%04d-%02d", [year intValue], [month intValue]];
+    }
+    else if (year)
+    {
+        return [NSString stringWithFormat:@"%04d", [year intValue]];
+    }
+    else
+    {
+        return nil;
+    }
 }
 @end

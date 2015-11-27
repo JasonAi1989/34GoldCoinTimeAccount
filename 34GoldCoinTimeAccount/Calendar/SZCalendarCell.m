@@ -11,6 +11,8 @@
 @interface SZCalendarCell ()
 {
     BOOL _isSelected;
+    UILabel *_flagLabel;
+    UILabel *_selectedLabel;
 }
 @end
 @implementation SZCalendarCell
@@ -25,17 +27,56 @@
         
         _isSelected = false;
     }
+    
+    if (!_flagLabel) {
+        CGRect rect = CGRectMake(5, 5, 3, 3);
+        _flagLabel = [[UILabel alloc]initWithFrame:rect];
+        [_flagLabel setAlpha:0];
+        [_dateLabel addSubview:_flagLabel];
+    }
+    
+    if (!_selectedLabel) {
+        CGRect rect = CGRectMake(self.bounds.size.width/2-10, self.bounds.size.height/2-10, 20, 20);
+        _selectedLabel = [[UILabel alloc]initWithFrame:rect];
+
+        [_selectedLabel setAlpha:0];
+        [_dateLabel addSubview:_selectedLabel];
+    }
+    
     return _dateLabel;
+}
+
+-(void)setFlag:(BOOL)flag{
+    if (flag) {
+        [_flagLabel setAlpha:1];
+        [_flagLabel setBackgroundColor:[UIColor blueColor]];
+    }
+    else
+    {
+        [_flagLabel setAlpha:0];
+        [_flagLabel setBackgroundColor:[UIColor whiteColor]];
+    }
+}
+
+-(void)clearStatus{
+    _isSelected = NO;
+    [_dateLabel setBackgroundColor:[UIColor whiteColor]];
+    [_flagLabel setBackgroundColor:[UIColor whiteColor]];
+    [_selectedLabel setBackgroundColor:[UIColor whiteColor]];
+    [_flagLabel setAlpha:0];
+    [_selectedLabel setAlpha:0];
 }
 
 -(void)cellTap{
     
     if (_isSelected) {
-        [_dateLabel setBackgroundColor:[UIColor whiteColor]];
+        [_selectedLabel setAlpha:0];
+        [_selectedLabel setBackgroundColor:[UIColor whiteColor]];
     }
     else
     {
-        [_dateLabel setBackgroundColor:[UIColor blueColor]];
+        [_selectedLabel setAlpha:0.5];
+        [_selectedLabel setBackgroundColor:[UIColor blueColor]];
     }
     
     _isSelected = !_isSelected;

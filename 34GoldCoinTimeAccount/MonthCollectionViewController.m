@@ -9,11 +9,16 @@
 #import "MonthCollectionViewController.h"
 #import "SZCalendarPicker.h"
 #import "MonthCollectionViewCell.h"
+#import "OneDayCoins.h"
+#import "CDBasket.h"
+#import "CDBasketService.h"
 
 @interface MonthCollectionViewController ()
 {
     CGFloat _navigationHight;
     UIBarButtonItem *_rightBtn;
+    NSMutableArray *_monthUsedCoinsArray;
+    NSMutableArray *_dayUsedcoinsArray;
 }
 @end
 
@@ -24,8 +29,7 @@ static NSString * const reuseIdentifier = @"monthCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self loadData];
     
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -51,6 +55,43 @@ static NSString * const reuseIdentifier = @"monthCell";
     
     //注册自定义cell类
     [self.collectionView registerClass:[MonthCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+}
+
+-(void)loadData{
+    //记录12个月的金币
+    _monthUsedCoinsArray = [[NSMutableArray alloc]initWithCapacity:12];
+    //记录一个月31天的金币
+    _dayUsedcoinsArray = [[NSMutableArray alloc]initWithCapacity:31];
+    for (int i=0; i<31; i++) {
+        [_dayUsedcoinsArray addObject:[NSNumber numberWithBool:false]];
+    }
+    
+    NSRange range = {0,4};
+    int thisYear = [[[OneDayCoins sharedOneDayCoins].dateYear substringWithRange:range] intValue];
+    
+    range.location = 5;
+    range.length = 2;
+    int thisMonth = [[[OneDayCoins sharedOneDayCoins].dateYear substringWithRange:range] intValue];
+    
+    for (int i=1; i<=12; i++) {
+        NSArray *ret = [[CDBasketService sharedCDBasketService] getBasketWithYear:[NSNumber numberWithInt:thisYear] Month:[NSNumber numberWithInt:i]];
+        
+        __block NSUInteger count=0;
+        [ret enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CDBasket* basket = (CDBasket*)obj;
+            count = count + basket.coins.count;
+
+            //将当前月计算出来
+            if (thisMonth == i) {
+                NSLog(@"count:%lu index:%d", (unsigned long)_dayUsedcoinsArray.count, [basket.day intValue]-1);
+                
+                [_dayUsedcoinsArray setObject:[NSNumber numberWithBool:YES] atIndexedSubscript:[basket.day intValue]-1];
+            }
+        }];
+        
+        [_monthUsedCoinsArray insertObject:[NSNumber numberWithInteger:count] atIndex:i-1];
+    }
+
 }
 
 #pragma mark Actions
@@ -79,7 +120,8 @@ static NSString * const reuseIdentifier = @"monthCell";
     [cell.titleLabel setText:[NSString stringWithFormat:@"%ld 月",(long)indexPath.row+1]];
     [cell.titleLabel setTextColor:[UIColor brownColor]];
     
-    [cell.contentLabel setText:@"无金币"];
+    [cell.contentLabel setNumberOfLines:2];
+    [cell.contentLabel setText:[NSString stringWithFormat:@"%d\n枚金币", [_monthUsedCoinsArray[indexPath.row] intValue]]];
     [cell.contentLabel setTextColor:[UIColor grayColor]];
     
     return cell;
@@ -104,15 +146,26 @@ static NSString * const reuseIdentifier = @"monthCell";
 //    cell.backgroundColor = [UIColor whiteColor];
     
     //将日历指到指定的月
-    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    NSDate *date = [NSDate date];
+    NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
+    
+    NSInteger currentMonth = [dateComponents month];
     
     [dateComponents setMonth:indexPath.row+1];
     NSDate *specificDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
 
     //初始化日历
     SZCalendarPicker *calendarPicker = [SZCalendarPicker showOnView:self.view];
-    calendarPicker.today = [NSDate date];
-    calendarPicker.date = specificDate;
+    calendarPicker.today = date;
+    
+    if (currentMonth == [dateComponents month]) {
+        calendarPicker.date = calendarPicker.today;
+    }
+    else
+    {
+        calendarPicker.date = specificDate;
+    }
+    
     calendarPicker.frame = CGRectMake(0, _navigationHight, self.view.frame.size.width, 352);
     calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
         
@@ -125,6 +178,21 @@ static NSString * const reuseIdentifier = @"monthCell";
     
     //修改nivigation btn
     [_rightBtn setTitle:@"查看"];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    formatter.dateFormat = @"yyyy-MM";
+    
+    calendarPicker.showBlock = ^(NSInteger index, NSDate *date){
+        if (index >= _dayUsedcoinsArray.count) {
+            return NO;
+        }
+        NSString *dateStr = [NSString stringWithFormat:@"%@-%02ld",[formatter stringFromDate:date], (long)index];
+        if ([[CDBasketService sharedCDBasketService] getBasketWithDate:dateStr]) {
+            NSLog(@"date string:%@", dateStr);
+            return YES;
+        };
+        return NO;
+    };
 }
 
 //返回这个UICollectionView是否可以被选择

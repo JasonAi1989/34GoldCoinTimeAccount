@@ -134,6 +134,10 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SZCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SZCalendarCellIdentifier forIndexPath:indexPath];
+    
+    //clear the cell
+    [cell clearStatus];
+    
     if (indexPath.section == 0) {
         [cell.dateLabel setText:_weekDayArray[indexPath.row]];
         [cell.dateLabel setTextColor:[UIColor colorWithHexString:@"#15cc9c"]];
@@ -153,7 +157,7 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
             day = i - firstWeekday + 1;
             [cell.dateLabel setText:[NSString stringWithFormat:@"%li",(long)day]];
             [cell.dateLabel setTextColor:[UIColor colorWithHexString:@"#6f6f6f"]];
-            
+
             //this month
             if ([_today isEqualToDate:_date]) {
                 if (day == [self day:_date]) {
@@ -164,6 +168,10 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
             } else if ([_today compare:_date] == NSOrderedAscending) {
                 [cell.dateLabel setTextColor:[UIColor colorWithHexString:@"#cbcbcb"]];
             }
+        }
+        
+        if (self.showBlock) {
+            [cell setFlag:self.showBlock(day, _date)];
         }
     }
     
@@ -198,6 +206,8 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SZCalendarCell * cell = (SZCalendarCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    //cell selected
     [cell tap];
     
     NSDateComponents *comp = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:self.date];
