@@ -188,7 +188,7 @@ static NSString * const reuseIdentifier = @"monthCell";
         }
         NSString *dateStr = [NSString stringWithFormat:@"%@-%02ld",[formatter stringFromDate:date], (long)index];
         if ([[CDBasketService sharedCDBasketService] getBasketWithDate:dateStr]) {
-            NSLog(@"date string:%@", dateStr);
+
             return YES;
         };
         return NO;

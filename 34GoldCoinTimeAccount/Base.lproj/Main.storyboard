@@ -221,32 +221,10 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Do1-xB-NtE"/>
-                    <connections>
-                        <segue destination="HYF-AW-OtH" kind="push" identifier="showCoins" id="HCE-En-OhR"/>
-                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b5p-pq-F4y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2019" y="716"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="X1l-69-I87">
-            <objects>
-                <viewController id="HYF-AW-OtH" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="c3U-Zh-BEb"/>
-                        <viewControllerLayoutGuide type="bottom" id="E6b-de-nTa"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="qBP-SF-sAj">
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="cTR-bZ-spl"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qam-YA-n5c" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2718" y="716"/>
         </scene>
     </scenes>
     <resources>

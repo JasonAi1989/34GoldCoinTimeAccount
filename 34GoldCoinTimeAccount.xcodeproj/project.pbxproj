@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		968F24CD1C082B3900B4CB8E /* ShowCoinsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F24C81C082B3900B4CB8E /* ShowCoinsCell.m */; settings = {ASSET_TAGS = (); }; };
+		968F24CE1C082B3900B4CB8E /* ShowCoinsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F24CA1C082B3900B4CB8E /* ShowCoinsCollectionView.m */; settings = {ASSET_TAGS = (); }; };
+		968F24CF1C082B3900B4CB8E /* ShowCoinsLineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 968F24CC1C082B3900B4CB8E /* ShowCoinsLineLayout.m */; settings = {ASSET_TAGS = (); }; };
 		96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9696F6371C076A5F00A99339 /* Calendar in Resources */ = {isa = PBXBuildFile; fileRef = 9696F6361C076A5F00A99339 /* Calendar */; settings = {ASSET_TAGS = (); }; };
 		9696F63C1C076B2B00A99339 /* SZCalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696F63B1C076B2B00A99339 /* SZCalendarCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -42,6 +45,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		968F24C71C082B3900B4CB8E /* ShowCoinsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCoinsCell.h; sourceTree = "<group>"; };
+		968F24C81C082B3900B4CB8E /* ShowCoinsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCoinsCell.m; sourceTree = "<group>"; };
+		968F24C91C082B3900B4CB8E /* ShowCoinsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCoinsCollectionView.h; sourceTree = "<group>"; };
+		968F24CA1C082B3900B4CB8E /* ShowCoinsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCoinsCollectionView.m; sourceTree = "<group>"; };
+		968F24CB1C082B3900B4CB8E /* ShowCoinsLineLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCoinsLineLayout.h; sourceTree = "<group>"; };
+		968F24CC1C082B3900B4CB8E /* ShowCoinsLineLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCoinsLineLayout.m; sourceTree = "<group>"; };
 		96902DB51C04557C00CDF834 /* UseCoinTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseCoinTableViewController.h; sourceTree = "<group>"; };
 		96902DB61C04557C00CDF834 /* UseCoinTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseCoinTableViewController.m; sourceTree = "<group>"; };
 		9696F6361C076A5F00A99339 /* Calendar */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Calendar; path = 34GoldCoinTimeAccount/Calendar; sourceTree = "<group>"; };
@@ -153,6 +162,12 @@
 		9696F64C1C076CC400A99339 /* History */ = {
 			isa = PBXGroup;
 			children = (
+				968F24C71C082B3900B4CB8E /* ShowCoinsCell.h */,
+				968F24C81C082B3900B4CB8E /* ShowCoinsCell.m */,
+				968F24C91C082B3900B4CB8E /* ShowCoinsCollectionView.h */,
+				968F24CA1C082B3900B4CB8E /* ShowCoinsCollectionView.m */,
+				968F24CB1C082B3900B4CB8E /* ShowCoinsLineLayout.h */,
+				968F24CC1C082B3900B4CB8E /* ShowCoinsLineLayout.m */,
 				96FBF1B81C07373300215D8C /* MonthCollectionViewController.h */,
 				96FBF1B91C07373300215D8C /* MonthCollectionViewController.m */,
 				96FBF1AF1C070E6E00215D8C /* HistoryTableViewController.h */,
@@ -357,6 +372,7 @@
 				9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */,
 				96FBF19F1C06C72500215D8C /* CDBasket+CoreDataProperties.m in Sources */,
 				96FBF1BA1C07373300215D8C /* MonthCollectionViewController.m in Sources */,
+				968F24CF1C082B3900B4CB8E /* ShowCoinsLineLayout.m in Sources */,
 				96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */,
 				9696F6431C076B4700A99339 /* SZCalendarPicker.m in Sources */,
 				9696F63C1C076B2B00A99339 /* SZCalendarCell.m in Sources */,
@@ -367,6 +383,7 @@
 				96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
 				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
+				968F24CD1C082B3900B4CB8E /* ShowCoinsCell.m in Sources */,
 				96FBF1AB1C06C8CB00215D8C /* CDBasketService.m in Sources */,
 				96FBF1B41C07125F00215D8C /* CoinsHistory.m in Sources */,
 				96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */,
@@ -375,6 +392,7 @@
 				9696F6451C076B4700A99339 /* UIColor+ZXLazy.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
 				96FBF1A01C06C72500215D8C /* CDBasket.m in Sources */,
+				968F24CE1C082B3900B4CB8E /* ShowCoinsCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
