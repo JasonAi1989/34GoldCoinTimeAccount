@@ -11,7 +11,7 @@
 @interface SZCalendarCell : UICollectionViewCell
 @property (nonatomic , strong) UILabel *dateLabel;
 
--(void)tap;
+-(BOOL)tap;
 -(void)setFlag:(BOOL)flag;
 -(void)clearStatus;
 @end

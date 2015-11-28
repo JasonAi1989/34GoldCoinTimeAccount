@@ -13,12 +13,15 @@
 #import "CDBasket.h"
 #import "CDBasketService.h"
 
+NSMutableArray *globalSelectedDaysArray;
+
 @interface MonthCollectionViewController ()
 {
     CGFloat _navigationHight;
     UIBarButtonItem *_rightBtn;
     NSMutableArray *_monthUsedCoinsArray;
-    NSMutableArray *_dayUsedcoinsArray;
+    __block NSMutableArray *_selectedDaysArray;
+
 }
 @end
 
@@ -60,18 +63,14 @@ static NSString * const reuseIdentifier = @"monthCell";
 -(void)loadData{
     //记录12个月的金币
     _monthUsedCoinsArray = [[NSMutableArray alloc]initWithCapacity:12];
-    //记录一个月31天的金币
-    _dayUsedcoinsArray = [[NSMutableArray alloc]initWithCapacity:31];
-    for (int i=0; i<31; i++) {
-        [_dayUsedcoinsArray addObject:[NSNumber numberWithBool:false]];
-    }
+    
+    _selectedDaysArray = [[NSMutableArray alloc]initWithCapacity:40];
     
     NSRange range = {0,4};
     int thisYear = [[[OneDayCoins sharedOneDayCoins].dateYear substringWithRange:range] intValue];
     
     range.location = 5;
     range.length = 2;
-    int thisMonth = [[[OneDayCoins sharedOneDayCoins].dateYear substringWithRange:range] intValue];
     
     for (int i=1; i<=12; i++) {
         NSArray *ret = [[CDBasketService sharedCDBasketService] getBasketWithYear:[NSNumber numberWithInt:thisYear] Month:[NSNumber numberWithInt:i]];
@@ -80,13 +79,6 @@ static NSString * const reuseIdentifier = @"monthCell";
         [ret enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             CDBasket* basket = (CDBasket*)obj;
             count = count + basket.coins.count;
-
-            //将当前月计算出来
-            if (thisMonth == i) {
-                NSLog(@"count:%lu index:%d", (unsigned long)_dayUsedcoinsArray.count, [basket.day intValue]-1);
-                
-                [_dayUsedcoinsArray setObject:[NSNumber numberWithBool:YES] atIndexedSubscript:[basket.day intValue]-1];
-            }
         }];
         
         [_monthUsedCoinsArray insertObject:[NSNumber numberWithInteger:count] atIndex:i-1];
@@ -95,8 +87,26 @@ static NSString * const reuseIdentifier = @"monthCell";
 }
 
 #pragma mark Actions
--(void)showAll:(id)sender{
+-(void)showAll:(UIBarButtonItem*)sender{
+    if ([sender.title isEqualToString:@"查看"]) {
+        if (globalSelectedDaysArray == nil) {
+            globalSelectedDaysArray = [[NSMutableArray alloc]initWithArray:_selectedDaysArray copyItems:YES];
+        }
+        else
+        {
+            [globalSelectedDaysArray removeAllObjects];
+            globalSelectedDaysArray = [[NSMutableArray alloc]initWithArray:_selectedDaysArray copyItems:YES];
+        }
+        
+        //这里进行一下排序
+        
+        
+        [self performSegueWithIdentifier:@"showCoins" sender:self];
+    }
+}
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -167,10 +177,21 @@ static NSString * const reuseIdentifier = @"monthCell";
     }
     
     calendarPicker.frame = CGRectMake(0, _navigationHight, self.view.frame.size.width, 352);
-    calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year){
+    
+    //此回调函数用于记录选中的天
+    calendarPicker.calendarBlock = ^(NSInteger day, NSInteger month, NSInteger year, BOOL isSelected){
         
+        if (isSelected) {
+            [_selectedDaysArray addObject:[NSString stringWithFormat:@"%04ld-%02ld-%02ld", (long)year,(long)month,(long)day]];
+        }
+        else
+        {
+            [_selectedDaysArray removeObject:[NSString stringWithFormat:@"%04ld-%02ld-%02ld", (long)year,(long)month,(long)day]];
+        }
         NSLog(@"%li-%li-%li", year,month,day);
     };
+    
+    //此回调函数用于修改navigation 右按钮的title
     calendarPicker.returnBlock = ^(){
         //修改nivigation btn
         [_rightBtn setTitle:@"更多"];
@@ -182,15 +203,14 @@ static NSString * const reuseIdentifier = @"monthCell";
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     formatter.dateFormat = @"yyyy-MM";
     
+    //此回调函数用于显示每天左上角的标志是否可见，用于表示此天是否有金币使用记录
     calendarPicker.showBlock = ^(NSInteger index, NSDate *date){
-        if (index >= _dayUsedcoinsArray.count) {
-            return NO;
-        }
         NSString *dateStr = [NSString stringWithFormat:@"%@-%02ld",[formatter stringFromDate:date], (long)index];
-        if ([[CDBasketService sharedCDBasketService] getBasketWithDate:dateStr]) {
-
+        CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:dateStr];
+        if (basket && basket.coins && basket.coins.count!=0) {
             return YES;
         };
+        
         return NO;
     };
 }
@@ -200,35 +220,4 @@ static NSString * const reuseIdentifier = @"monthCell";
 {
     return YES;
 }
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
-
 @end

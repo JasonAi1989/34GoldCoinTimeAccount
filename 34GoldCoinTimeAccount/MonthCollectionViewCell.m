@@ -40,8 +40,4 @@
     
     return _contentLabel;
 }
-
--(void)test{
-    NSLog(@"test");
-}
 @end

@@ -208,7 +208,7 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
     SZCalendarCell * cell = (SZCalendarCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
     //cell selected
-    [cell tap];
+    BOOL isSelected = [cell tap];
     
     NSDateComponents *comp = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:self.date];
     NSInteger firstWeekday = [self firstWeekdayInThisMonth:_date];
@@ -217,7 +217,7 @@ NSString *const SZCalendarCellIdentifier = @"calendarCell";
     NSInteger i = indexPath.row;
     day = i - firstWeekday + 1;
     if (self.calendarBlock) {
-        self.calendarBlock(day, [comp month], [comp year]);
+        self.calendarBlock(day, [comp month], [comp year], isSelected);
     }
     
 //    [self hide];

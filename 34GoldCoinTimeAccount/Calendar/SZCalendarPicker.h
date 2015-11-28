@@ -13,7 +13,7 @@ typedef BOOL(^calendarShowBlock)(NSInteger);
 @interface SZCalendarPicker : UIView<UICollectionViewDelegate , UICollectionViewDataSource>
 @property (nonatomic , strong) NSDate *date;
 @property (nonatomic , strong) NSDate *today;
-@property (nonatomic, copy) void(^calendarBlock)(NSInteger day, NSInteger month, NSInteger year);
+@property (nonatomic, copy) void(^calendarBlock)(NSInteger day, NSInteger month, NSInteger year, BOOL isSelected);
 @property (nonatomic, copy) void(^returnBlock)();
 @property (nonatomic, copy) BOOL(^showBlock)(NSInteger index, NSDate *date);
 

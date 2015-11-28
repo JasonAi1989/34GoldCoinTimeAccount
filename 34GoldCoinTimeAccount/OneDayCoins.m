@@ -82,7 +82,8 @@ singleton_implementation(OneDayCoins);
         
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *comps =[calendar components:(NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday |NSCalendarUnitWeekdayOrdinal) fromDate:today];
-        self.dateWeek = [self.globalWeekCn objectAtIndex:[comps weekday]];
+//        NSLog(@"weekday: %ld", (long)[comps weekday]);
+        self.dateWeek = [self.globalWeekCn objectAtIndex:[comps weekday]-1];
     }
 
     return self;

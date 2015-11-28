@@ -221,10 +221,32 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Do1-xB-NtE"/>
+                    <connections>
+                        <segue destination="dx5-OW-lea" kind="push" identifier="showCoins" id="xQl-uf-Rar"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b5p-pq-F4y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2019" y="716"/>
+        </scene>
+        <!--Show Coins View Controller-->
+        <scene sceneID="Rw7-2H-Q73">
+            <objects>
+                <viewController id="dx5-OW-lea" customClass="ShowCoinsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Keb-e9-S2c"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xut-CQ-PIl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QDD-VM-VJp">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8bH-P4-Eo9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wVD-b4-wBt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2718" y="716"/>
         </scene>
     </scenes>
     <resources>

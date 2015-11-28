@@ -67,8 +67,7 @@
     [_selectedLabel setAlpha:0];
 }
 
--(void)cellTap{
-    
+-(BOOL)cellTap{
     if (_isSelected) {
         [_selectedLabel setAlpha:0];
         [_selectedLabel setBackgroundColor:[UIColor whiteColor]];
@@ -80,13 +79,15 @@
     }
     
     _isSelected = !_isSelected;
+    
+    return _isSelected;
 }
 - (void)addTap
 {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap)];
     [self addGestureRecognizer:tap];
 }
--(void)tap{
-    [self cellTap];
+-(BOOL)tap{
+    return [self cellTap];
 }
 @end
