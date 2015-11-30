@@ -316,8 +316,8 @@
     }
     
     //冻结时间选项
-    [_fromBtn setEnabled:NO];
-    [_toBtn setEnabled:NO];
+//    [_fromBtn setEnabled:NO];
+//    [_toBtn setEnabled:NO];
 }
 
 -(void)collectInfo:(Coin*)coin{
