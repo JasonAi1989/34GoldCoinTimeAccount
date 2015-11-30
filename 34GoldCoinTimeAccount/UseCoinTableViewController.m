@@ -392,6 +392,13 @@
         return;
     }
     
+    //check the title and type Label is fill or not
+    if (_todoText.text.length == 0 || _type == GCNone) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"内容错误" message:@"您至少需要输入事项名称和状态" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
     //get the basket to contain the coins
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
     

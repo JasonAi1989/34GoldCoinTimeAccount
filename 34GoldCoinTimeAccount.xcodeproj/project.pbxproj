@@ -25,8 +25,6 @@
 		9699F4301C0402E70031BFB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9699F42F1C0402E70031BFB4 /* Assets.xcassets */; };
 		9699F4331C0402E70031BFB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699F4311C0402E70031BFB4 /* LaunchScreen.storyboard */; };
 		9699F43C1C040B5C0031BFB4 /* TodayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4411C040BBE0031BFB4 /* SetTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4441C040BED0031BFB4 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9699F4491C040E910031BFB4 /* TodayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9699F4481C040E910031BFB4 /* TodayTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		96A3C6161C0597D500DE3FB9 /* OneDayCoins.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3C6151C0597D500DE3FB9 /* OneDayCoins.m */; settings = {ASSET_TAGS = (); }; };
 		96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A3C6181C0598C000DE3FB9 /* Coin.m */; settings = {ASSET_TAGS = (); }; };
@@ -73,10 +71,6 @@
 		9699F4341C0402E70031BFB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9699F43A1C040B5C0031BFB4 /* TodayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewController.h; sourceTree = "<group>"; };
 		9699F43B1C040B5C0031BFB4 /* TodayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewController.m; sourceTree = "<group>"; };
-		9699F4401C040BBE0031BFB4 /* SetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetTableViewController.h; sourceTree = "<group>"; };
-		9699F4411C040BBE0031BFB4 /* SetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTableViewController.m; sourceTree = "<group>"; };
-		9699F4431C040BED0031BFB4 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
-		9699F4441C040BED0031BFB4 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		9699F4471C040E910031BFB4 /* TodayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayTableViewCell.h; sourceTree = "<group>"; };
 		9699F4481C040E910031BFB4 /* TodayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayTableViewCell.m; sourceTree = "<group>"; };
 		9699F44A1C0430450031BFB4 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -201,14 +195,9 @@
 				96FBF1961C06C71200215D8C /* ModelCD */,
 				96A3C6131C0597AF00DE3FB9 /* Model */,
 				9699F4461C040E730031BFB4 /* TableCells */,
+				96A5022F1C0C124900DBCC7D /* Launch */,
 				9699F4231C0402E70031BFB4 /* AppDelegate.h */,
 				9699F4241C0402E70031BFB4 /* AppDelegate.m */,
-				96FBF1B51C071F5A00215D8C /* LaunchViewController.h */,
-				96FBF1B61C071F5A00215D8C /* LaunchViewController.m */,
-				9699F4401C040BBE0031BFB4 /* SetTableViewController.h */,
-				9699F4411C040BBE0031BFB4 /* SetTableViewController.m */,
-				9699F4431C040BED0031BFB4 /* ChartViewController.h */,
-				9699F4441C040BED0031BFB4 /* ChartViewController.m */,
 				9699F4291C0402E70031BFB4 /* Main.storyboard */,
 				9699F42F1C0402E70031BFB4 /* Assets.xcassets */,
 				9699F4311C0402E70031BFB4 /* LaunchScreen.storyboard */,
@@ -247,6 +236,15 @@
 				96FBF1B31C07125F00215D8C /* CoinsHistory.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		96A5022F1C0C124900DBCC7D /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				96FBF1B51C071F5A00215D8C /* LaunchViewController.h */,
+				96FBF1B61C071F5A00215D8C /* LaunchViewController.m */,
+			);
+			name = Launch;
 			sourceTree = "<group>";
 		};
 		96FBF1961C06C71200215D8C /* ModelCD */ = {
@@ -374,7 +372,6 @@
 				96FBF1A21C06C72500215D8C /* CDCoin.m in Sources */,
 				9696F64F1C076D6B00A99339 /* MonthCollectionViewCell.m in Sources */,
 				96FBF1A81C06C81200215D8C /* DbManager.m in Sources */,
-				9699F4451C040BED0031BFB4 /* ChartViewController.m in Sources */,
 				96FBF1A11C06C72500215D8C /* CDCoin+CoreDataProperties.m in Sources */,
 				9699F4251C0402E70031BFB4 /* AppDelegate.m in Sources */,
 				96902DB71C04557C00CDF834 /* UseCoinTableViewController.m in Sources */,
@@ -382,7 +379,6 @@
 				96FBF1B41C07125F00215D8C /* CoinsHistory.m in Sources */,
 				96FBF1AE1C06C8DC00215D8C /* CDCoinService.m in Sources */,
 				968F25251C0850DF00B4CB8E /* ShowCoinsViewController.m in Sources */,
-				9699F4421C040BBE0031BFB4 /* SetTableViewController.m in Sources */,
 				96A3C6191C0598C000DE3FB9 /* Coin.m in Sources */,
 				9696F6451C076B4700A99339 /* UIColor+ZXLazy.m in Sources */,
 				9699F4221C0402E70031BFB4 /* main.m in Sources */,
