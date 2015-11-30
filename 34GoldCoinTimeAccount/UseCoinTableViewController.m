@@ -414,18 +414,22 @@
 
 -(void)writeToCoreData:(Coin*)coin Basket:(CDBasket*)basket{
     CDCoinService *cs = [CDCoinService sharedCDCoinService];
-
+    CDCoin *cdCoin = [cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]];
+    
     //add new coin
-    if ([cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]] == nil) {
+    if (cdCoin == nil) {
         [cs addCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
         
-        [basket addCoinsObject:[cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]]];
-        
+        CDCoin *newCDCoin = [cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]];
+
+        [basket addCoinsObject:newCDCoin];
+
         //增加历史统计信息
         [[CoinsHistory sharedCoinsHistory] addNewCoin:coin];
     }
-    else //modify the old coin
+    else//modify the old coin
     {
+
         [cs modifyCoinWithCoinID:[NSNumber numberWithInt:coin.coinID] Used:[NSNumber numberWithBool:coin.used] Title:coin.title Type:[NSNumber numberWithInt:coin.type] Who:coin.who Where:coin.where Detail:coin.detail Basket:basket];
     }
 }
@@ -454,6 +458,10 @@
     
     //get the basket to contain the coins
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
+    if (basket == nil) {
+        [[CDBasketService sharedCDBasketService] addBasketWithDate:_todayCoins.dateYear];
+        basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
+    }
     
     //compute the coin index, there may be many coins used.
     int minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);

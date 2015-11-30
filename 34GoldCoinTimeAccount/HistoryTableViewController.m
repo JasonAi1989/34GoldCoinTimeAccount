@@ -17,6 +17,12 @@
 
 @implementation HistoryTableViewController
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,7 +48,7 @@
     
     //navigation
     self.navigationItem.title = @"金币往事";
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"Detail" style:UIBarButtonItemStylePlain target:self action:@selector(gotoDetail:)];
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"详细" style:UIBarButtonItemStylePlain target:self action:@selector(gotoDetail:)];
     self.navigationItem.rightBarButtonItem = rightBtn;
 }
 

@@ -46,9 +46,10 @@
     OneDayCoins *todayCoins = [OneDayCoins sharedOneDayCoins];
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:todayCoins.dateYear];
     if (basket == nil || basket.coins == nil || basket.coins.count == 0) {
+//        NSLog(@"here!");
         return;
     }
-    
+
     NSSortDescriptor *sd = [[NSSortDescriptor alloc]initWithKey:@"coinID" ascending:YES];
     NSArray *sort = [[NSArray alloc]initWithObjects:sd, nil];
     NSArray *results = [basket.coins sortedArrayUsingDescriptors:sort];
@@ -93,9 +94,9 @@
         return NO;
     }];
     
-    //    for (Coin*coin in _todayCoins.usedCoinQueue) {
-    //        NSLog(@"coin id:%d", coin.coinID);
-    //        NSLog(@"coin title: %@", coin.title);
-    //    }
+//        for (Coin*coin in todayCoins.usedCoinQueue) {
+//            NSLog(@"coin id:%d", coin.coinID);
+//            NSLog(@"coin title: %@", coin.title);
+//        }
 }
 @end
