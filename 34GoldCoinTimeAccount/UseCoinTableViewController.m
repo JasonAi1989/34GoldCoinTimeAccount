@@ -56,6 +56,12 @@
     UIButton *_IneffectiveDelayBtn;
     
     GoldCoinType _type;
+    
+    UIView *_mask;
+    
+    BOOL _fromDateSelected;
+    BOOL _toDateSelected;
+    BOOL _typeSelected;
 }
 
 @property (assign, nonatomic) BOOL newCoins;
@@ -149,11 +155,18 @@
     _detailText.placeholder = @"输入事项详细内容";
     [_detailText setTextColor:[UIColor blackColor]];
     
+    //mask
+    _mask = [[UIView alloc]initWithFrame:self.tableView.bounds];
+    [_mask setBackgroundColor:[UIColor blackColor]];
+    [_mask setAlpha:0.3];
+
     [self dateUILayout];
     
     [self typeUILayout];
     
     [self loadCoinData];
+    
+    [self addTapForMask];
 }
 
 -(void) dateUILayout{
@@ -161,7 +174,7 @@
     _fromDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, UseCoinCellHight, ViewWidth, ViewHight)];
     _fromDateView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     _fromDateView.layer.cornerRadius = 5;
-    [self.view addSubview:_fromDateView];
+//    [self.view addSubview:_fromDateView];
     
     _fromDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_fromDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
     _fromDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
@@ -184,7 +197,7 @@
     _toDateView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 2*UseCoinCellHight, ViewWidth, ViewHight)];
     _toDateView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     _toDateView.layer.cornerRadius = 5;
-    [self.view addSubview:_toDateView];
+//    [self.view addSubview:_toDateView];
     
     _toDateViewOKBtn = [[UIButton alloc]initWithFrame:CGRectMake(_toDateView.frame.size.width/2-25, ViewHight-30, 50, 20)];
     _toDateViewOKBtn.backgroundColor = [[UIColor alloc]initWithRed:142/255.0 green:186/255.0 blue:236/255.0 alpha:1];
@@ -200,6 +213,9 @@
     [_toDateView addSubview:_toPickerView];
     _toPickerView.dataSource = self;
     _toPickerView.delegate = self;
+    
+    _fromDateSelected = NO;
+    _toDateSelected = NO;
 }
 
 -(void)typeUILayout{
@@ -218,7 +234,7 @@
     _typeView = [[UIView alloc]initWithFrame:CGRectMake(-ViewWidth-10, 4*UseCoinCellHight, ViewWidth, ViewHight+30)];
     _typeView.backgroundColor = [[UIColor alloc]initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     _typeView.layer.cornerRadius = 5;
-    [self.view addSubview:_typeView];
+//    [self.view addSubview:_typeView];
     
     CGRect rect = _typeView.frame;
     rect.origin.x =10;
@@ -266,6 +282,8 @@
     [_RestBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
     [_ForcedWorkBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
     [_IneffectiveDelayBtn addTarget:self action:@selector(typeBtn:) forControlEvents:UIControlEventTouchDown];
+    
+    _typeSelected = NO;
 }
 
 -(void)loadCoinData{
@@ -383,6 +401,12 @@
     }
 }
 
+- (void)addTapForMask
+{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideForMask)];
+    [_mask addGestureRecognizer:tap];
+}
+
 #pragma mark Action
 -(void)editDone:(id)sender{
     // check the time
@@ -481,6 +505,11 @@
 
 -(void)selectDate:(UIButton*)sender{
     if (sender == _fromBtn) {
+        [self.tableView addSubview:_mask];
+        [self.tableView addSubview:_fromDateView];
+        
+        _fromDateSelected = YES;
+        
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _fromDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
@@ -489,6 +518,11 @@
     }
     else if (sender == _toBtn)
     {
+        [self.tableView addSubview:_mask];
+        [self.tableView addSubview:_toDateView];
+        
+        _toDateSelected = YES;
+        
         [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
             _toDateView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+ViewWidth/2, 0);
         } completion:^(BOOL finished) {
@@ -541,6 +575,11 @@
         } completion:^(BOOL finished) {
 
         }];
+        
+        [_mask removeFromSuperview];
+        [_fromDateView removeFromSuperview];
+        
+        _fromDateSelected = NO;
     }
     else if (sender == _toDateViewCancelBtn
              || _toDateViewOKBtn)
@@ -550,11 +589,21 @@
         } completion:^(BOOL finished) {
 
         }];
+        
+        [_mask removeFromSuperview];
+        [_toDateView removeFromSuperview];
+        
+        _toDateSelected = NO;
     }
 }
 
 -(void)selectTypeBtn:(id)sender{
-    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
+    [self.tableView addSubview:_mask];
+    [self.tableView addSubview:_typeView];
+    
+    _typeSelected = YES;
+    
+    [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:0 animations:^{
         _typeView.transform = CGAffineTransformMakeTranslation(ViewWidth+10+20, 0);
     } completion:^(BOOL finished) {
         
@@ -562,10 +611,15 @@
 }
 
 -(void)typeBtn:(id)sender{
-    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
+    _typeSelected = NO;
+    
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:2 options:0 animations:^{
         _typeView.transform = CGAffineTransformMakeTranslation(-ViewWidth-10-20, 0);
+        [_mask setAlpha:0];
     } completion:^(BOOL finished) {
-        
+        [_mask removeFromSuperview];
+        [_typeView removeFromSuperview];
+        [_mask setAlpha:0.3];
     }];
     
     if (sender == _EffectiveWorkBtn) {
@@ -587,12 +641,29 @@
     {
         _type = GCIneffectiveDelay;
     }
+    else
+    {
+        _type = GCNone;
+    }
     
     [_typeBtn setTitle:[((NSArray*)[_todayCoins.globalTypeBox objectAtIndex:_type]) objectAtIndex:1] forState:UIControlStateNormal];
     [_typeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     _typeBtn.titleLabel.font = [UIFont systemFontOfSize:17];
 }
 
+-(void)hideForMask{
+    if (_typeSelected) {
+        [self typeBtn:nil];
+    }
+    
+    if (_fromDateSelected) {
+        [self selectDateDone:_fromDateViewOKBtn];
+    }
+    
+    if (_toDateSelected) {
+        [self selectDateDone:_toDateViewOKBtn];
+    }
+}
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
