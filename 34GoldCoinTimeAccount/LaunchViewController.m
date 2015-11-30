@@ -45,84 +45,48 @@
 -(void)loadCDBasketCoins{
     OneDayCoins *todayCoins = [OneDayCoins sharedOneDayCoins];
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:todayCoins.dateYear];
-    if (basket == nil) {
-        [[CDBasketService sharedCDBasketService] addBasketWithDate:todayCoins.dateYear];
+    if (basket == nil || basket.coins == nil || basket.coins.count == 0) {
         return;
     }
     
-    //取出来的值是乱序的
-    [basket.coins enumerateObjectsUsingBlock:^(CDCoin * _Nonnull obj, BOOL * _Nonnull stop) {
-        int index = 0;
-        for (Coin* coin in todayCoins.usedCoinQueue) {
-            //可以直接修改
-            if (coin.coinID == [obj.coinID intValue]) {
-                coin.used = [obj.used boolValue];
-                
-                if (obj.title != nil) {
-                    if (coin.title == nil) {
-                        coin.title = [[NSMutableString alloc]initWithString:obj.title];
-                    }
-                    else
-                    {
-                        [coin.title setString:obj.title];
-                    }
-                }
-                
-                coin.type = [obj.type intValue];
-                
-                if (obj.who != nil) {
-                    if (coin.who == nil) {
-                        coin.who = [[NSMutableString alloc]initWithString:obj.who];
-                    }
-                    else
-                    {
-                        [coin.who setString:obj.who];
-                    }
-                }
-                
-                if (obj.where != nil) {
-                    if (coin.where == nil) {
-                        coin.where = [[NSMutableString alloc]initWithString:obj.where];
-                    }
-                    else
-                    {
-                        [coin.where setString:obj.where];
-                    }
-                }
-                
-                if (obj.detail != nil) {
-                    if (coin.detail == nil) {
-                        coin.detail = [[NSMutableString alloc]initWithString:obj.detail];
-                    }
-                    else
-                    {
-                        [coin.detail setString:obj.detail];
-                    }
-                }
-                
-                *stop = NO;
-                return;
-            }
-            //在前面插入
-            else if (coin.coinID > [obj.coinID intValue])
-            {
-                Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
-                [todayCoins.usedCoinQueue insertObject:newCoin atIndex:index];
-                *stop = NO;
-                return;
-            }
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc]initWithKey:@"coinID" ascending:YES];
+    NSArray *sort = [[NSArray alloc]initWithObjects:sd, nil];
+    NSArray *results = [basket.coins sortedArrayUsingDescriptors:sort];
+    
+    BOOL modifyFlag=NO;
+    for (int i=0; i<results.count; i++) {
+        CDCoin *cdCoin = [results objectAtIndex:i];
+        
+        for (int j=0; j<todayCoins.usedCoinQueue.count; j++) {
+            Coin* coin = [todayCoins.usedCoinQueue objectAtIndex:j];
             
-            index++;
+            if (coin.coinID == [cdCoin.coinID intValue]) {
+                coin.used = YES;
+                coin.title = [cdCoin.title copy];
+                coin.type = [cdCoin.type intValue];
+                coin.who = [cdCoin.who copy];
+                coin.where = [cdCoin.where copy];
+                coin.detail = [cdCoin.detail copy];
+                modifyFlag = YES;
+            }
         }
         
-        //遍历完了之后发现可以在后面插入
-        Coin* coin = [todayCoins.usedCoinQueue lastObject];
-        if (coin.coinID < 47) {
-            Coin* newCoin = [[Coin alloc]init:[obj.coinID intValue] used:[obj.used boolValue] title:obj.title type:[obj.type intValue] who:obj.who where:obj.where detail:obj.detail];
-            [todayCoins.usedCoinQueue addObject:newCoin];
+        if (modifyFlag == NO) {
+            Coin* coin = [[Coin alloc]initWithCDCoin:cdCoin];
+            
+            [todayCoins.usedCoinQueue addObject:coin];
+        }
+    }
+    
+    [todayCoins.usedCoinQueue sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        Coin *coin1 = obj1;
+        Coin *coin2 = obj2;
+        
+        if (coin1.coinID > coin2.coinID) {
+            return YES;
         }
         
-        *stop = NO;
+        return NO;
     }];
     
     //    for (Coin*coin in _todayCoins.usedCoinQueue) {

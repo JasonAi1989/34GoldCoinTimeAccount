@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "common.h"
+#import "CDCoin.h"
 
 @interface Coin : NSObject 
 
 -(instancetype)init:(int)coidID used:(BOOL)used title:(NSString*)title type:(GoldCoinType)type who:(NSString*)who where:(NSString*)where detail:(NSString*)detail;
+-(instancetype)initWithCDCoin:(CDCoin*)cdCoin;
 
 @property (assign, nonatomic) int coinID;
 @property (assign, nonatomic) BOOL used;

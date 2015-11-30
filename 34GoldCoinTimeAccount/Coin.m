@@ -38,4 +38,19 @@
     return self;
 }
 
+-(instancetype)initWithCDCoin:(CDCoin*)cdCoin{
+    self = [super init];
+    
+    if (self) {
+        self.coinID = [cdCoin.coinID intValue];
+        self.used = [cdCoin.used boolValue];
+        self.title = [cdCoin.title copy];
+        self.type = [cdCoin.type intValue];
+        self.who = [cdCoin.who copy];
+        self.where = [cdCoin.where copy];
+        self.detail = [cdCoin.detail copy];
+    }
+    
+    return self;
+}
 @end
