@@ -32,4 +32,6 @@ singleton_interface(CoinsHistory);
 
 -(void)addNewCoin:(Coin*)coin;
 -(void)addNewCDCoin:(CDCoin *)coin;
+
+-(void)updateData;
 @end

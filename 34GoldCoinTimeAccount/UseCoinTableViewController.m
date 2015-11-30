@@ -11,6 +11,7 @@
 #import "CDCoinService.h"
 #import "CDBasketService.h"
 #import "CoinsHistory.h"
+#import "CoinsHistory.h"
 
 #define ViewHight   160
 #define ViewWidth   ([UIScreen mainScreen].bounds.size.width/2)
@@ -62,6 +63,8 @@
     BOOL _fromDateSelected;
     BOOL _toDateSelected;
     BOOL _typeSelected;
+    
+    BOOL _modifyFlag;  //cancle is NO, OK is YES
 }
 
 @property (assign, nonatomic) BOOL newCoins;
@@ -195,6 +198,8 @@
     [self loadCoinData];
     
     [self addTapForMask];
+    
+    _modifyFlag = NO;
 }
 
 -(void) dateUILayout{
@@ -360,7 +365,7 @@
         }
         else
         {
-            [coin.title setString:_todoText.text];
+            coin.title = [[NSMutableString alloc]initWithString:_todoText.text];
         }
         
         collect = YES;
@@ -372,7 +377,8 @@
         }
         else
         {
-            [coin.who setString:_whoText.text];
+//            [coin.who setString:_whoText.text];
+            coin.who = [[NSMutableString alloc]initWithString:_whoText.text];
         }
         
         collect = YES;
@@ -384,7 +390,8 @@
         }
         else
         {
-            [coin.where setString:_whereText.text];
+//            [coin.where setString:_whereText.text];
+            coin.where = [[NSMutableString alloc]initWithString:_whereText.text];
         }
         
         collect = YES;
@@ -396,13 +403,19 @@
         }
         else
         {
-            [coin.detail setString:_detailText.text];
+//            [coin.detail setString:_detailText.text];
+            coin.detail = [[NSMutableString alloc]initWithString:_detailText.text];
         }
         
         collect = YES;
     }
     
     if (_type != GCNone) {
+        if (coin.type != GCNone
+            && coin.type != _type) {
+            [[CoinsHistory sharedCoinsHistory] updateData];
+        }
+        
         coin.type = _type;
         collect = YES;
     }
@@ -467,20 +480,18 @@
     int minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
     int maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
     
-//    for (int i=0; i<_todayCoins.usedCoinQueue.count; i++) {
-//        Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:i];
-//        NSLog(@"coin id: %d used: %d", coin.coinID, coin.used);
-//    }
-    
     //check the time
-    for (int i = minCoin; i<maxCoin; i++) {
-        for (int j=0; j<_todayCoins.usedCoinQueue.count; j++) {
-            Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:j];
-            if (coin.coinID == i && coin.used) {
-//                NSLog(@"who : %d, used: %d", coin.coinID, coin.used);
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件执行时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alert show];
-                return;
+    if (_modifyFlag == NO) {
+        for (int i = minCoin; i<maxCoin; i++) {
+            for (int j=0; j<_todayCoins.usedCoinQueue.count; j++) {
+                Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:j];
+                if (coin.coinID == i && coin.used) {
+                    
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"金币被使用" message:@"您设置的事件执行时间已经被使用，如若确认更改，请点击确定！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    [alert show];
+                    
+                    return;
+                }
             }
         }
     }
@@ -520,12 +531,6 @@
             }];
         }
     }
-    
-        
-//    for (Coin *i in _todayCoins.usedCoinQueue) {
-//        NSLog(@"index: %d", i.coinID);
-//    }
-    
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -846,6 +851,16 @@
 
 #pragma mark UIAlertView delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-
+//    NSLog(@"button index:%d", buttonIndex);
+    
+    //cancle
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else //OK
+    {
+        _modifyFlag = YES;
+        [self editDone:nil];
+    }
 }
 @end

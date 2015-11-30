@@ -108,4 +108,43 @@ singleton_implementation(CoinsHistory);
     
     self.hours = self.coins/2.0;
 }
+
+-(void)updateData{
+    NSArray *basketArray = [[CDBasketService sharedCDBasketService] getAllBasket];
+    NSArray *coinsArray = [[CDCoinService sharedCDCoinService] getAllCoins];
+    
+    self.days = basketArray.count;
+    self.coins = coinsArray.count;
+    self.hours = self.coins/2.0;
+    
+    self.coinsEffectiveWork = 0;
+    self.coinsEffectiveEntertainment = 0;
+    self.coinsRest = 0;
+    self.coinsForcedWork = 0;
+    self.coinsIneffectiveDelay = 0;
+    
+    for (CDCoin* coin in coinsArray) {
+        switch ([coin.type intValue]) {
+            case 1:
+                self.coinsEffectiveWork++;
+                break;
+            case 2:
+                self.coinsEffectiveEntertainment++;
+                break;
+            case 3:
+                self.coinsRest++;
+                break;
+            case 4:
+                self.coinsForcedWork++;
+                break;
+            case 5:
+                self.coinsIneffectiveDelay++;
+                break;
+                
+            default:
+                break;
+        }
+    }
+
+}
 @end
