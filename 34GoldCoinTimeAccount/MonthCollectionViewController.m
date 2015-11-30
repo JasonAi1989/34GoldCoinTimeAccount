@@ -99,7 +99,24 @@ static NSString * const reuseIdentifier = @"monthCell";
         }
         
         //这里进行一下排序
+        [globalSelectedDaysArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSString *str1 = (NSString *)obj1;
+            NSString *str2 = (NSString *)obj2;
+
+            NSRange range = {8, 2};
+            int day1 = [[str1 substringWithRange:range] intValue];
+            int day2 = [[str2 substringWithRange:range] intValue];
+            
+            if (day1 > day2) {
+                return YES;
+            }
+            
+            return NO;
+        }];
         
+//        for (NSString *str in globalSelectedDaysArray) {
+//            NSLog(@"str: %@", str);
+//        }
         
         [self performSegueWithIdentifier:@"showCoins" sender:self];
     }
