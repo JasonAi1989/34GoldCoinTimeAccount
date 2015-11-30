@@ -44,7 +44,8 @@ singleton_implementation(OneDayCoins);
                                         @"goldCoin32",@"goldCoin33",@"goldCoin34",@"goldCoin35",\
                                         @"goldCoin36",@"goldCoin37",@"goldCoin38",@"goldCoin39",\
                                         @"goldCoin40", @"goldCoin41",@"goldCoin42",@"goldCoin43",\
-                                        @"goldCoin44",@"goldCoin45",@"goldCoin46",@"goldCoin47"];
+                                        @"goldCoin44",@"goldCoin45",@"goldCoin46",@"goldCoin47",\
+                                        @"errorCell"];
         
         self.globalWeekCn = @[@"星期日",@"星期一",@"星期二",@"星期三",@"星期四",@"星期五",@"星期六"];
         

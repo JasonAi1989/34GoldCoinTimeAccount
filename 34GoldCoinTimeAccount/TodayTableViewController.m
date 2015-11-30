@@ -105,6 +105,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     int index = ((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:indexPath.row]).coinID;
+//    NSLog(@"index: %d", index);
+    if (index >= 48) {
+        index = 47;
+    }
     
     TodayTableViewCell *cell=nil;
     cell = [self.tableView dequeueReusableCellWithIdentifier:[_todayCoins.tableCellIdentifyQueue objectAtIndex:index]];

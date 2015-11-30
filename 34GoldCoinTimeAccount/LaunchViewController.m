@@ -56,7 +56,7 @@
     BOOL modifyFlag=NO;
     for (int i=0; i<results.count; i++) {
         CDCoin *cdCoin = [results objectAtIndex:i];
-        
+        //修改
         for (int j=0; j<todayCoins.usedCoinQueue.count; j++) {
             Coin* coin = [todayCoins.usedCoinQueue objectAtIndex:j];
             
@@ -70,14 +70,18 @@
                 modifyFlag = YES;
             }
         }
-        
+        //插入
         if (modifyFlag == NO) {
             Coin* coin = [[Coin alloc]initWithCDCoin:cdCoin];
             
             [todayCoins.usedCoinQueue addObject:coin];
+            
         }
+        
+        modifyFlag = NO;
     }
     
+    //排序
     [todayCoins.usedCoinQueue sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         Coin *coin1 = obj1;
         Coin *coin2 = obj2;

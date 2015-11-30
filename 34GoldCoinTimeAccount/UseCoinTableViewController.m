@@ -33,18 +33,18 @@
     UIButton *_fromDateViewOKBtn;
     UIPickerView *_fromPickerView;
     CGFloat _fromTime;
+    NSInteger _fromPickerHour;
+    NSInteger _fromPickerMinute;
     
     UIView  *_toDateView;
     UIButton *_toDateViewCancelBtn;
     UIButton *_toDateViewOKBtn;
     UIPickerView *_toPickerView;
     CGFloat _toTime;
+    NSInteger _toPickerHour;
+    NSInteger _toPickerMinute;
     
     NSString *_today;
-    NSInteger _pickerHour;
-    NSInteger _pickerMinute;
-    
-    NSRange _usedCoinRange;
     
     OneDayCoins *_todayCoins;
     
@@ -108,22 +108,50 @@
     if (self.newCoins == YES) {
         fromMessage = [NSString stringWithFormat:@"从 %@ 07:00", _today];
         toMessage = [NSString stringWithFormat:@"到 %@ 07:30", _today];
+        
+        _fromTime = 7.0;
+        _toTime = 7.5;
     }
     else
     {
         int index = ((Coin*)[_todayCoins.usedCoinQueue objectAtIndex:self.tableBtnQueueIndex]).coinID;
         NSString *timePeriod = [_todayCoins.globalTimeBox objectAtIndex:index];
+        
+        //@"01:30-02:00"
         NSRange range = {0, 5};
         fromMessage = [NSString stringWithFormat:@"从 %@ %@", _today, [timePeriod substringWithRange:range]];
         range.location = 6;
         range.length = 5;
         toMessage = [NSString stringWithFormat:@"到 %@ %@", _today, [timePeriod substringWithRange:range]];
+        
+        NSRange hourRange = {0,2};
+        NSRange minuteRange = {3, 2};
+        int hour = [[timePeriod substringWithRange:hourRange] intValue];
+        int minute = [[timePeriod substringWithRange:minuteRange] intValue];
+        
+        if (minute == 30) {
+            _fromTime = hour + 0.5;
+        }
+        else
+        {
+            _fromTime = hour;
+        }
+        
+        hourRange.location = 6;
+        hourRange.length = 2;
+        minuteRange.location = 9;
+        minuteRange.length = 2;
+        hour = [[timePeriod substringWithRange:hourRange] intValue];
+        minute = [[timePeriod substringWithRange:minuteRange] intValue];
+        
+        if (minute == 30) {
+            _toTime = hour + 0.5;
+        }
+        else
+        {
+            _toTime = hour;
+        }
     }
-    
-    _fromTime = 7.0;
-    _toTime = 7.5;
-    _usedCoinRange.location = 14;
-    _usedCoinRange.length = 1;
     
     CGRect rect = CGRectMake(15, 0, UseCoinCellWidth, UseCoinCellHight);
     
@@ -393,6 +421,7 @@
         
         [basket addCoinsObject:[cs getCoinWithCoinID:[NSNumber numberWithInt:coin.coinID]]];
         
+        //增加历史统计信息
         [[CoinsHistory sharedCoinsHistory] addNewCoin:coin];
     }
     else //modify the old coin
@@ -426,74 +455,68 @@
     //get the basket to contain the coins
     CDBasket *basket = [[CDBasketService sharedCDBasketService] getBasketWithDate:_todayCoins.dateYear];
     
-    //如果是新建 需要插入到全局队列中
-    if (self.newCoins) {
-        //comppute the coin index, there may be many coins used.
-        int minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
-        int maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
-        
-        int placeHold=-1;
-        int index=0;
-        for (Coin* coin in _todayCoins.usedCoinQueue) {
-            int coinID = coin.coinID;
-            if (minCoin <= coinID && coinID <= maxCoin) {
+    //compute the coin index, there may be many coins used.
+    int minCoin = floorf(_fromTime) * 2 + ((_fromTime - floorf(_fromTime) > 0) ? 1: 0);
+    int maxCoin = floorf(_toTime) * 2 + ((_toTime - floorf(_toTime) > 0) ? 1: 0);
+    
+//    for (int i=0; i<_todayCoins.usedCoinQueue.count; i++) {
+//        Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:i];
+//        NSLog(@"coin id: %d used: %d", coin.coinID, coin.used);
+//    }
+    
+    //check the time
+    for (int i = minCoin; i<maxCoin; i++) {
+        for (int j=0; j<_todayCoins.usedCoinQueue.count; j++) {
+            Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:j];
+            if (coin.coinID == i && coin.used) {
+//                NSLog(@"who : %d, used: %d", coin.coinID, coin.used);
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"时间错误" message:@"您设置的事件执行时间已经被占用，请更正！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
                 return;
             }
-            else if (placeHold == -1 && maxCoin < coinID)
-            {
-                placeHold =index;
-            }
-            
-            index++;
-        }
-        
-        //insert the new coin to coin queue
-        if (placeHold == -1) {
-            for (int i=minCoin; i<maxCoin; i++) {
-                Coin *coin = [[Coin alloc]init];
-                coin.coinID = i;
-                [self collectInfo:coin];
-                
-                [_todayCoins.usedCoinQueue addObject:coin];
-                
-                //write the coin to the basket core data
-                [self writeToCoreData:coin Basket:basket];
-            }
-        }
-        else
-        {
-            int coinIndex = minCoin;
-            for (int i=placeHold; i<placeHold+maxCoin-minCoin; i++) {
-                Coin *coin = [[Coin alloc]init];
-                coin.coinID = coinIndex;
-                [self collectInfo:coin];
-                
-                [_todayCoins.usedCoinQueue insertObject:coin atIndex:i];
-                
-                //write the coin to the basket core data
-                [self writeToCoreData:coin Basket:basket];
-                
-                coinIndex++;
-            }
         }
     }
-    else{ //不是新建，直接修改即可
-        Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:_tableBtnQueueIndex];
-        [self collectInfo:coin];
+    
+    //modify or add
+    for (int i = minCoin; i<maxCoin; i++) {
+        BOOL modifyFlag=NO;
         
-        [self writeToCoreData:coin Basket:basket];
+        for (int j=0; j<_todayCoins.usedCoinQueue.count; j++) {
+            Coin *coin = [_todayCoins.usedCoinQueue objectAtIndex:j];
+            if (coin.coinID == i) {
+                [self collectInfo:coin];
+                modifyFlag = YES;
+                
+                [self writeToCoreData:coin Basket:basket];
+            }
+        }
+        
+        if (modifyFlag == NO) {
+            Coin *coin = [[Coin alloc]init];
+            coin.coinID = i;
+            [self collectInfo:coin];
+            
+            [self writeToCoreData:coin Basket:basket];
+            
+            [_todayCoins.usedCoinQueue addObject:coin];
+            
+            [_todayCoins.usedCoinQueue sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                Coin *coin1 = obj1;
+                Coin *coin2 = obj2;
+                
+                if (coin1.coinID > coin2.coinID) {
+                    return YES;
+                }
+                
+                return NO;
+            }];
+        }
     }
     
         
 //    for (Coin *i in _todayCoins.usedCoinQueue) {
 //        NSLog(@"index: %d", i.coinID);
 //    }
-    
-//    NSLog(@"%ld, %ld", _usedCoinRange.location, _usedCoinRange.length);
-    
-    
     
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -535,30 +558,30 @@
 //    NSLog(@"selectDateDone");
     
     if (sender == _fromDateViewOKBtn) {
-        NSString *fromMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today, _pickerHour, _pickerMinute];
+        NSString *fromMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today, _fromPickerHour, _fromPickerMinute];
 
         [_fromBtn setTitle:fromMessage forState:UIControlStateNormal];
         
-        if (_pickerMinute == 30) {
-            _fromTime = _pickerHour + 0.5;
+        if (_fromPickerMinute == 30) {
+            _fromTime = _fromPickerHour + 0.5;
         }
         else
         {
-            _fromTime = _pickerHour;
+            _fromTime = _fromPickerHour;
         }
     }
     else if (sender == _toDateViewOKBtn)
     {
-        NSString *toMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today,_pickerHour, _pickerMinute];
+        NSString *toMessage = [NSString stringWithFormat:@"从 %@ %02ld:%02ld", _today, _toPickerHour, _toPickerMinute];
         
         [_toBtn setTitle:toMessage forState:UIControlStateNormal];
         
-        if (_pickerMinute == 30) {
-            _toTime = _pickerHour + 0.5;
+        if (_toPickerMinute == 30) {
+            _toTime = _toPickerHour + 0.5;
         }
         else
         {
-            _toTime = _pickerHour;
+            _toTime = _toPickerHour;
         }
     }
     
@@ -780,18 +803,36 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (component == 0) {
-        _pickerHour = row;
-    }
-    else if (component == 2)
-    {
-        if (row == 0) {
-            _pickerMinute = 0;
+        if (pickerView == _fromPickerView) {
+            _fromPickerHour = row;
         }
         else
         {
-            _pickerMinute = 30;
+            _toPickerHour = row;
         }
         
+    }
+    else if (component == 2)
+    {
+        if (pickerView == _fromPickerView) {
+            if (row == 0) {
+                _fromPickerMinute = 0;
+            }
+            else
+            {
+                _fromPickerMinute = 30;
+            }
+        }
+        else
+        {
+            if (row == 0) {
+                _fromPickerMinute = 0;
+            }
+            else
+            {
+                _toPickerMinute = 30;
+            }
+        }
     }
 }
 
