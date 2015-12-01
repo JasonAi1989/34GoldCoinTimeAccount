@@ -110,6 +110,7 @@ singleton_implementation(CoinsHistory);
 }
 
 -(void)updateData{
+    
     NSArray *basketArray = [[CDBasketService sharedCDBasketService] getAllBasket];
     NSArray *coinsArray = [[CDCoinService sharedCDCoinService] getAllCoins];
     
@@ -146,5 +147,49 @@ singleton_implementation(CoinsHistory);
         }
     }
 
+}
+
+-(void)updateWithOldTypr:(int)oldType NewType:(int)newType{
+    switch (oldType) {
+        case 1:
+            self.coinsEffectiveWork--;
+            break;
+        case 2:
+            self.coinsEffectiveEntertainment--;
+            break;
+        case 3:
+            self.coinsRest--;
+            break;
+        case 4:
+            self.coinsForcedWork--;
+            break;
+        case 5:
+            self.coinsIneffectiveDelay--;
+            break;
+            
+        default:
+            break;
+    }
+
+    switch (newType) {
+        case 1:
+            self.coinsEffectiveWork++;
+            break;
+        case 2:
+            self.coinsEffectiveEntertainment++;
+            break;
+        case 3:
+            self.coinsRest++;
+            break;
+        case 4:
+            self.coinsForcedWork++;
+            break;
+        case 5:
+            self.coinsIneffectiveDelay++;
+            break;
+            
+        default:
+            break;
+    }
 }
 @end

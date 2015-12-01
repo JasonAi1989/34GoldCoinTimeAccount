@@ -413,7 +413,8 @@
     if (_type != GCNone) {
         if (coin.type != GCNone
             && coin.type != _type) {
-            [[CoinsHistory sharedCoinsHistory] updateData];
+
+            [[CoinsHistory sharedCoinsHistory] updateWithOldTypr:coin.type NewType:_type];
         }
         
         coin.type = _type;
