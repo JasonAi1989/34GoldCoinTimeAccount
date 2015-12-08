@@ -205,7 +205,7 @@ static NSString * const reuseIdentifier = @"monthCell";
         {
             [_selectedDaysArray removeObject:[NSString stringWithFormat:@"%04ld-%02ld-%02ld", (long)year,(long)month,(long)day]];
         }
-        NSLog(@"%li-%li-%li", year,month,day);
+//        NSLog(@"%li-%li-%li", year,month,day);
     };
     
     //此回调函数用于修改navigation 右按钮的title

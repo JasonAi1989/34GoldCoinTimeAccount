@@ -29,6 +29,8 @@
     // Do any additional setup after loading the view.
     
     [self loadData];
+    
+    [self UILayout];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,6 +42,13 @@
     [CoinsHistory sharedCoinsHistory];
     
     [self loadCDBasketCoins];
+}
+
+-(void)UILayout{
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    imageView.image = [UIImage imageNamed:@"Launch"];
+
+    [self.view addSubview:imageView];
 }
 
 -(void)loadCDBasketCoins{
